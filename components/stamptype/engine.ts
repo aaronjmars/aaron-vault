@@ -124,7 +124,9 @@ export class StampType {
     const cycle = PASS_PITCH * this.worlds.length;
     const loop = (now: number) => {
       if (!this.running) return;
-      this.acc += Math.min(now - this.last, 250);
+      // rAF timestamps can predate the performance.now() taken in start(),
+      // so the first delta may be negative; clamp or tick goes to -1.
+      this.acc += Math.max(0, Math.min(now - this.last, 250));
       this.last = now;
       const tick = Math.floor(this.acc / TICK_MS) % cycle;
       if (tick !== this.drawnTick) this.draw(tick);

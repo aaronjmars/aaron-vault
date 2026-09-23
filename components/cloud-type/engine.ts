@@ -500,7 +500,7 @@ export class CloudType {
       const dt = Math.min(100, Math.max(0, now - this.lastNow));
       this.lastNow = now;
       if (this.windOn || this.wind.a > 0) this.stepWind(dt);
-      const t = (this.elapsed + (now - this.t0)) % LOOP_MS;
+      const t = (this.elapsed + Math.max(0, now - this.t0)) % LOOP_MS;
       this.render(frameAt(t));
       this.raf = requestAnimationFrame(tick);
     };

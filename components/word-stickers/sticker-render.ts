@@ -18,7 +18,7 @@ export interface RenderOpts {
 export function renderSticker(opts: RenderOpts): RenderedSticker {
   const dpr = opts.dpr ?? Math.min(window.devicePixelRatio || 1, 2);
   const size = opts.fontSizePx;
-  const border = opts.border ?? Math.max(6, Math.round(size * 0.16));
+  const border = opts.border ?? Math.max(2, Math.round(size * 0.16));
   const fontStr = `${opts.weight} ${size}px ${opts.font}`;
 
   const meas = document.createElement("canvas").getContext("2d")!;
@@ -29,7 +29,7 @@ export function renderSticker(opts: RenderOpts): RenderedSticker {
   const textW = m.width;
   const textH = ascent + descent;
 
-  const pad = border + 4;
+  const pad = border + Math.max(2, Math.round(size * 0.06));
   const cssW = Math.ceil(textW + pad * 2);
   const cssH = Math.ceil(textH + pad * 2);
 

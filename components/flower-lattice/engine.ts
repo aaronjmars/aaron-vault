@@ -70,7 +70,7 @@ export class FlowerLattice {
     this.lastTick = -1;
     const tick = (now: number) => {
       if (!this.running) return;
-      const t = Math.floor(((now - this.t0) / 1000) * FPS) % TICKS;
+      const t = Math.floor((Math.max(0, now - this.t0) / 1000) * FPS) % TICKS;
 
       if (t !== this.lastTick) {
         this.lastTick = t;
@@ -107,10 +107,14 @@ export class FlowerLattice {
     ctx.fillStyle = PAPER;
     ctx.fillRect(0, 0, W, H);
 
-    const pitch = PITCH * H;
     const margin = MARGIN * H;
     const border = BORDER * H;
     const inset = margin + border;
+    // Snap the pitch so an odd count of whole flowers spans the framed width
+    // (centre column included), capped so a flower never outgrows the height.
+    const inner = W - inset * 2;
+    const count = Math.max(1, 2 * Math.round((inner / (PITCH * H) - 1) / 2) + 1);
+    const pitch = Math.min(inner / count, (H / 2 - inset) / FLOWER_R);
 
     ctx.save();
     ctx.beginPath();

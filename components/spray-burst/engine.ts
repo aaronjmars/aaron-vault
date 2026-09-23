@@ -692,7 +692,8 @@ export class SprayBurst {
     if (dt > 0) this.cursor += (target - this.cursor) * (1 - Math.exp(-dt / CURSOR_EASE));
 
     const moved = Math.abs(this.cursor - target) > 0.001;
-    const idx = Math.floor(((now - this.start0) / 1000) * FPS) % TOTAL;
+    // rAF time can predate the performance.now() taken in start(); clamp so idx never goes negative
+    const idx = Math.floor((Math.max(0, now - this.start0) / 1000) * FPS) % TOTAL;
     if (idx !== this.lastFrame || moved) {
       this.lastFrame = idx;
       this.render(idx);

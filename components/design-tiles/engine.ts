@@ -88,8 +88,9 @@ export class DesignTiles {
       const svg = document.createElementNS(SVGNS, "svg");
       Object.assign(svg.style, {
         display: "block",
-        // fixed visual height, width follows the viewBox aspect
-        height: "clamp(1.6rem, 4vw, 2.9rem)",
+        // fixed visual height, width follows the viewBox aspect; sized to the
+        // card (container units) so the bar spans about 85% of its width
+        height: "clamp(0.9rem, 10.2cqw, 8rem)",
         opacity: "0",
         transition: `opacity ${Math.round(FLY_MS * 0.8)}ms ease`,
       });
@@ -126,7 +127,9 @@ export class DesignTiles {
     this.root = root;
     this.bar = bar;
 
-    this.layout();
+    // a detached node computes an empty fontFamily, so resolve it only now
+    // that root is in the document; otherwise measuring falls back to 10px
+    this.refreshFont();
     this.bindEvents();
   }
 

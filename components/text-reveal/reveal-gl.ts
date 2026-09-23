@@ -265,8 +265,12 @@ export class RevealGL {
   }
 
   destroy() {
+    // a canvas with a lost context left in the DOM paints Chrome's sad-face icon
+    this.canvas.remove();
     if (!this.ok) return;
+    this.ok = false;
     const gl = this.gl;
+    if (gl.isContextLost()) return;
     if (this.tex) gl.deleteTexture(this.tex);
     gl.getExtension("WEBGL_lose_context")?.loseContext();
   }
@@ -303,11 +307,13 @@ export function renderCornerText(o: CornerText): HTMLCanvasElement {
   for (let i = 0; i < 24; i++) {
     ctx.font = `500 ${fontSize}px ${o.font}`;
     const widest = Math.max(...allLines.map((l) => ctx.measureText(l).width));
-    if (widest <= maxLineW || fontSize <= 15) break;
+    if (widest <= maxLineW || fontSize <= 11) break;
     fontSize -= 1;
   }
   const lineH = fontSize * 1.42;
   ctx.font = `500 ${fontSize}px ${o.font}`;
+  // glyph size in texels, so the caller can scale the reveal blur to the type
+  canvas.dataset.glyph = String(fontSize * dpr);
 
   ctx.textAlign = "left";
   o.top.forEach((line, i) => {

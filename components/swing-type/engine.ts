@@ -262,7 +262,7 @@ export class SwingType {
     const swing = swingDeg([...WORDS[0]].length) * DEG;
     const tick = (now: number) => {
       if (!this.running) return;
-      const elapsed = (now - this.t0) / 1000;
+      const elapsed = Math.max(0, now - this.t0) / 1000;
       this.clock = elapsed;
 
       const want = Math.floor(elapsed / WORD_SECONDS) % WORDS.length;

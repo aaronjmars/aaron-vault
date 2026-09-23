@@ -124,18 +124,25 @@ export class Drift {
   private target: Vec = { x: 0, y: 0 };
   private started = false;
 
-  private speed = 0.34;
+  // px per ms at SPEED_REF_W wide; scaled with the card so a small card
+  // does not whip the head (and the trail) across itself
+  private static readonly SPEED = 0.34;
+  private static readonly SPEED_REF_W = 1000;
+  private speed = Drift.SPEED;
 
   private turn = 0.0042;
 
   constructor(
     private w: number,
     private h: number,
-  ) {}
+  ) {
+    this.resize(w, h);
+  }
 
   resize(w: number, h: number) {
     this.w = w;
     this.h = h;
+    this.speed = Drift.SPEED * Math.min(1, w / Drift.SPEED_REF_W);
   }
 
   reseed(at: Vec) {
@@ -144,18 +151,22 @@ export class Drift {
     this.retarget();
   }
 
-  private retarget() {
+  // The staircase hangs down and to the left of the head, so the head
+  // wanders the upper right of the card to keep the trail in frame.
+  private static readonly BOX = { x0: 0.64, x1: 0.92, y0: 0.12, y1: 0.44 };
 
-    const m = 0.2;
+  private retarget() {
+    const b = Drift.BOX;
     this.target = {
-      x: (m + Math.random() * (1 - m * 2)) * this.w,
-      y: (m + Math.random() * (1 - m * 2)) * this.h,
+      x: (b.x0 + Math.random() * (b.x1 - b.x0)) * this.w,
+      y: (b.y0 + Math.random() * (b.y1 - b.y0)) * this.h,
     };
   }
 
   step(dt: number): Vec {
+    const b = Drift.BOX;
     if (!this.started) {
-      this.at = { x: this.w * 0.5, y: this.h * 0.5 };
+      this.at = { x: this.w * ((b.x0 + b.x1) / 2), y: this.h * ((b.y0 + b.y1) / 2) };
       this.started = true;
       this.retarget();
     }
@@ -175,16 +186,18 @@ export class Drift {
 
     if (bl < Math.min(this.w, this.h) * 0.22) this.retarget();
 
-    const pad = 0.2;
     const near =
-      this.at.x < this.w * pad ||
-      this.at.x > this.w * (1 - pad) ||
-      this.at.y < this.h * pad ||
-      this.at.y > this.h * (1 - pad);
-    if (near) this.target = { x: this.w * 0.5, y: this.h * 0.5 };
+      this.at.x < this.w * b.x0 ||
+      this.at.x > this.w * b.x1 ||
+      this.at.y < this.h * b.y0 ||
+      this.at.y > this.h * b.y1;
+    if (near) {
+      this.target = { x: this.w * ((b.x0 + b.x1) / 2), y: this.h * ((b.y0 + b.y1) / 2) };
+    }
 
-    this.at.x = Math.max(0, Math.min(this.w, this.at.x));
-    this.at.y = Math.max(0, Math.min(this.h, this.at.y));
+    // small slack past the box so the turn back reads as a curve, not a wall
+    this.at.x = Math.max(this.w * (b.x0 - 0.06), Math.min(this.w * (b.x1 + 0.04), this.at.x));
+    this.at.y = Math.max(this.h * (b.y0 - 0.06), Math.min(this.h * (b.y1 + 0.06), this.at.y));
 
     return { ...this.at };
   }

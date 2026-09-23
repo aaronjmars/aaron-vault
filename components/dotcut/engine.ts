@@ -321,7 +321,7 @@ export class DotCut {
     this.last = performance.now();
     const tick = (now: number) => {
       if (!this.running) return;
-      const dt = Math.min((now - this.last) / 1000, 1 / 30);
+      const dt = Math.max(0, Math.min((now - this.last) / 1000, 1 / 30));
       this.last = now;
       this.draw(dt);
       this.raf = requestAnimationFrame(tick);

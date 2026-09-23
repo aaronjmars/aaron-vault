@@ -44,6 +44,9 @@ const GRAIN_SVG =
 const HOLD_MS = 320;
 const OUT_HOLD_MS = 80;
 const MAX_BLUR = 16;
+// MAX_BLUR is tuned for glyphs about this many texels tall (40px type at 2x);
+// smaller cards scale it down or the blur swallows the letters whole
+const BLUR_GLYPH = 80;
 const K_IN = 16;
 const K_OUT = 22;
 const DAMP = 1.12;
@@ -95,18 +98,41 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
     let fontFamily = resolveFamily("var(--font-kyoto), Georgia, serif");
     const edge = hexToRgb(EDGE);
 
-    const gl = new RevealGL();
-    const useGL = gl.available;
-    if (useGL) {
-      gl.resize(W, H, dpr);
-      host.appendChild(gl.canvas);
-    }
+    // WebGL is taken only while on screen: the page runs more GL cards than
+    // Chrome's ~16 live-context cap, and an evicted context paints a sad-face
+    // icon. If ours is evicted, the flat 2D text canvas fades in its place.
+    let gl: RevealGL | null = null;
+    let flat: HTMLCanvasElement | null = null;
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      release();
+    };
+    const release = () => {
+      if (!gl) return;
+      gl.canvas.removeEventListener("webglcontextlost", onLost);
+      gl.destroy();
+      gl = null;
+      if (flat) flat.style.display = "block";
+    };
+    const acquire = () => {
+      if (gl) return;
+      const g = new RevealGL();
+      if (!g.available) return;
+      gl = g;
+      g.resize(W, H, dpr);
+      g.canvas.addEventListener("webglcontextlost", onLost);
+      host.appendChild(g.canvas);
+      if (flat) {
+        g.setTexture(flat);
+        flat.style.display = "none";
+      }
+    };
 
     let index = 0;
     let seed = 1.7;
+    let maxBlur = MAX_BLUR;
 
     const mount = () => {
-      if (!useGL) return;
       const pair = TEXT_PAIRS[index];
       const art = renderCornerText({
         top: pair.top,
@@ -117,7 +143,15 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
         cardH: H,
         dpr,
       });
-      gl.setTexture(art);
+      Object.assign(art.style, {
+        position: "absolute", inset: "0", width: "100%", height: "100%",
+        display: gl ? "none" : "block", opacity: "0",
+      });
+      if (flat) flat.replaceWith(art);
+      else host.appendChild(art);
+      flat = art;
+      maxBlur = MAX_BLUR * Math.min(1, Number(art.dataset.glyph || BLUR_GLYPH) / BLUR_GLYPH);
+      gl?.setTexture(art);
     };
     mount();
 
@@ -189,15 +223,20 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
       const p = Math.max(0, Math.min(1, progress));
 
       const reverse = phase === "out" ? 1 : 0;
-      if (useGL) gl.draw(p, MAX_BLUR, edge, clock, W / Math.max(1, H), seed, parTL, parBR, cursorUV, hoverCur, reverse);
+      if (gl) gl.draw(p, maxBlur, edge, clock, W / Math.max(1, H), seed, parTL, parBR, cursorUV, hoverCur, reverse);
+      else if (flat) {
+        flat.style.opacity = p.toFixed(3);
+        flat.style.filter = `blur(${((1 - p) * maxBlur * 0.3).toFixed(2)}px)`;
+      }
 
-      if (useGL) {
+      const shown = gl ? gl.canvas : flat;
+      if (shown) {
         held += ((phase === "hold" ? 1 : 0) - held) * (1 - Math.pow(0.02, dt));
         const breathe = Math.sin(clock * 0.45) * 0.5 + 0.5;
         const s = 1 + held * breathe * 0.0015;
         const b = 1 + held * (breathe - 0.5) * 0.012;
-        gl.canvas.style.transform = `scale(${s.toFixed(4)})`;
-        gl.canvas.style.filter = `brightness(${b.toFixed(3)})`;
+        shown.style.transform = `scale(${s.toFixed(4)})`;
+        if (gl) shown.style.filter = `brightness(${b.toFixed(3)})`;
       }
 
       raf = requestAnimationFrame(loop);
@@ -218,14 +257,23 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
     };
 
     const renderStill = () => {
-      if (useGL) gl.draw(1, 0, edge, 0, W / Math.max(1, H), seed, [0, 0], [0, 0], [-1, -1], 0, 0);
+      if (gl) gl.draw(1, 0, edge, 0, W / Math.max(1, H), seed, [0, 0], [0, 0], [-1, -1], 0, 0);
+      else if (flat) {
+        flat.style.opacity = "1";
+        flat.style.filter = "none";
+      }
     };
 
     let onScreen = false;
     let hidden = false;
     let inTransition = false;
     const sync = () => {
-      if (reduced) return;
+      if (onScreen && !hidden) acquire();
+      else release();
+      if (reduced) {
+        renderStill();
+        return;
+      }
       if (onScreen && !hidden && !inTransition) start();
       else stop();
     };
@@ -250,8 +298,9 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
         W = host.clientWidth || 1;
         H = host.clientHeight || 1;
         if (W < 2 || H < 2) return;
-        gl.resize(W, H, dpr);
+        gl?.resize(W, H, dpr);
         mount();
+        if (reduced) renderStill();
       }, 120);
     });
     ro.observe(host);
@@ -274,7 +323,8 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
       offTransition();
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
-      gl.destroy();
+      release();
+      flat?.remove();
     };
   }, []);
 

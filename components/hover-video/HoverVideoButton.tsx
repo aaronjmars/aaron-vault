@@ -24,7 +24,9 @@ function pill(variant: Variant): { className: string; style: CSSProperties; over
       overlays: (
         <span
           aria-hidden
-          className="pointer-events-none absolute left-2.5 right-2.5 top-[-4.5px] h-7 rounded-[500px] bg-gradient-to-t from-white/0 to-white opacity-70 blur-[1px]"
+          className="pointer-events-none absolute left-2.5 right-2.5 top-[-4.5px] h-7 rounded-[500px] opacity-70 blur-[1px]"
+          // plain sRGB stops: Tailwind 4 gradients interpolate in oklab, which greys the fade
+          style={{ background: "linear-gradient(to top, rgba(255,255,255,0), #fff)" }}
         />
       ),
     };

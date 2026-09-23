@@ -225,7 +225,7 @@ export class WildType {
     this.lastSig = "";
     const tick = (now: number) => {
       if (!this.running) return;
-      const tau = (((now - this.t0) / 1000) * FPS) % LOOP_TICKS;
+      const tau = ((Math.max(0, now - this.t0) / 1000) * FPS) % LOOP_TICKS;
       if (tau < this.lastLoopTick) {
         this.loopNo++;
         this.wordIdx = (this.wordIdx + 1) % WORDS.length;

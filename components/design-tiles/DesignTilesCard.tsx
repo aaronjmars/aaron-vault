@@ -26,7 +26,11 @@ export default function DesignTilesCard() {
     const io = new IntersectionObserver(
       (es) => {
         const vis = es[0]?.isIntersecting ?? false;
-        if (vis && !engine) engine = new DesignTiles(host);
+        if (vis && !engine) {
+          engine = new DesignTiles(host);
+          // fonts may finish loading after the engine measured its glyphs
+          document.fonts?.ready.then(() => engine?.refreshFont());
+        }
         onScreen = vis;
         if (reduced && engine) engine.renderStill();
         sync();
@@ -45,10 +49,6 @@ export default function DesignTilesCard() {
       sync();
     });
 
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => engine?.refreshFont());
-    }
-
     return () => {
       io.disconnect();
       document.removeEventListener("visibilitychange", onVis);
@@ -62,7 +62,7 @@ export default function DesignTilesCard() {
       ref={hostRef}
       data-canvas-card
       aria-label="The sentence 'design is how it works' as solid colour tiles that fly in, assemble into one bar, and shuffle their swatches. Hover a tile to re-roll its colour."
-      className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f4f2ec]"
+      className="@container relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f4f2ec]"
     />
   );
 }

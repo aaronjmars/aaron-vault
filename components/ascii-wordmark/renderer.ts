@@ -28,6 +28,13 @@ const FBO_SIZE = IS_TOUCH ? 128 : 200;
 const MAX_DPR = IS_TOUCH ? 1.5 : 2;
 const RENDER_SCALE = 0.5;
 const ASCII_CELL_DIVISOR = 100;
+// floor on glyph size in CSS px: on a narrow card width/100 is ~3px and the
+// glyphs smear into noise
+const MIN_CELL_CSS = 6;
+
+function asciiCell(bw: number, dpr: number): number {
+  return Math.max((bw * dpr) / ASCII_CELL_DIVISOR, MIN_CELL_CSS * RENDER_SCALE * dpr);
+}
 
 export interface AsciiWordmarkOptions {
   word: string;
@@ -67,7 +74,8 @@ export class AsciiWordmarkRenderer {
   private trailOn = 0;
   private visibility = 0;
   private wordAspect = 3;
-  private readonly WORD_MARGIN = 0.92;
+  // camera pull-back over an exact fit: the ink spans about 85% of the card
+  private readonly WORD_MARGIN = 1 / 0.85;
 
   private io?: IntersectionObserver;
   private ro?: ResizeObserver;
@@ -204,7 +212,7 @@ export class AsciiWordmarkRenderer {
     atlasTex.minFilter = THREE.LinearFilter;
     atlasTex.magFilter = THREE.LinearFilter;
 
-    const cell = (bw * dpr) / ASCII_CELL_DIVISOR;
+    const cell = asciiCell(bw, dpr);
 
     const ink = new THREE.Color(this.opts.inkColor);
 
@@ -309,7 +317,7 @@ export class AsciiWordmarkRenderer {
     const bw = Math.max(2, Math.round(w * RENDER_SCALE));
     const bh = Math.max(2, Math.round(h * RENDER_SCALE));
     this.asciiPass.uniforms.uResolution.value.set(bw * dpr, bh * dpr);
-    this.asciiPass.uniforms.uAsciiPixelSize.value = (bw * dpr) / ASCII_CELL_DIVISOR;
+    this.asciiPass.uniforms.uAsciiPixelSize.value = asciiCell(bw, dpr);
     this.asciiPass.uniforms.uAspect.value = w / h;
     this.pointsMat.uniforms.uResolution.value.set(w * dpr, h * dpr);
   }

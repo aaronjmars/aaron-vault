@@ -251,7 +251,7 @@ export class PopType {
     this.t0 = performance.now();
     const tick = (now: number) => {
       if (!this.running) return;
-      const total = this.elapsed + (now - this.t0);
+      const total = this.elapsed + Math.max(0, now - this.t0);
       const frame = Math.floor(total / FRAME_MS);
       if (frame !== this.lastFrame) {
         this.lastFrame = frame;

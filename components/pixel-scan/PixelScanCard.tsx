@@ -91,7 +91,7 @@ export default function PixelScanCard({
       ref={hostRef}
       data-canvas-card
       aria-label="A word assembled out of a spray of tiny coloured blocks by a sweeping band; the cursor lights a pool of blocks with a lasting wake."
-      className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#12141f]"
+      className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f5f4f9]"
       style={{ ["--font-kyoto" as string]: "Georgia, serif" }}
     />
   );

@@ -224,7 +224,7 @@ export class SunsetSlam {
       this.hover += (this.hoverTo - this.hover) * (1 - Math.exp(-dt / rate));
 
       const span = FRAMES + SETTLE_BRIDGE + OUTRO;
-      this.draw(bridged((((now - this.t0) / 1000) * FPS) % span));
+      this.draw(bridged(((Math.max(0, now - this.t0) / 1000) * FPS) % span));
       this.raf = requestAnimationFrame(tick);
     };
     this.raf = requestAnimationFrame(tick);

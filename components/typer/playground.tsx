@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Typer, TyperGroup } from "./standalone/typer";
 import "./standalone/typer.css";
 
@@ -13,7 +13,6 @@ const LINES = [
 export default function TyperPlayground() {
   const blockRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<TyperGroup | null>(null);
-  const [nonce, setNonce] = useState(0);
 
   useEffect(() => {
     const block = blockRef.current;
@@ -41,19 +40,19 @@ export default function TyperPlayground() {
       group.destroy();
       groupRef.current = null;
     };
-  }, [nonce]);
+  }, []);
 
   return (
     <div
       data-canvas-card
       aria-label="Headlines that type in: a wave sweeps each line and every letter flickers through solid pills, highlights and outlines before settling. Adjacent letters in the same state merge into one rounded bar."
-      className="relative mx-auto flex aspect-[1344/620] w-full select-none flex-col items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-surface,#fcfcfc)] text-center"
+      className="@container relative mx-auto flex aspect-[1344/620] w-full select-none flex-col items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-surface,#fcfcfc)] text-center"
       style={{ ["--typer-accent" as string]: "#12a150" }}
     >
       <div
         ref={blockRef}
         className="typer-block flex flex-col items-center gap-1 font-semibold"
-        style={{ fontSize: "clamp(1.4rem, 3.2vw, 2.4rem)" }}
+        style={{ fontSize: "clamp(0.6rem, 5.4cqw, 2.4rem)", whiteSpace: "nowrap" }}
       >
         {LINES.map((l) => (
           <span key={l} data-typer data-typer-type="initial">
@@ -61,13 +60,6 @@ export default function TyperPlayground() {
           </span>
         ))}
       </div>
-      <button
-        type="button"
-        onClick={() => setNonce((n) => n + 1)}
-        className="mt-10 cursor-pointer rounded-full border border-[#d8d8d2] bg-white px-4 py-1.5 text-[12px] text-[#1b1b1b] hover:bg-[#f2f2ee]"
-      >
-        Replay
-      </button>
     </div>
   );
 }

@@ -43,7 +43,8 @@ export function CodeTrailCard({ bare = false }: { bare?: boolean } = {}) {
     const resize = () => {
       w = host.clientWidth;
       h = host.clientHeight;
-      font = Math.max(10, w * FONT_RATIO);
+      // floor kept low so a small card still fits most of the staircase
+      font = Math.max(8, w * FONT_RATIO);
       line = font * LINE_RATIO;
       step = line * STEP_RATIO;
       drift.resize(w, h);

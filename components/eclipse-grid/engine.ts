@@ -123,7 +123,7 @@ export class EclipseGrid {
       if (!this.running) return;
       const dt = Math.min(100, Math.max(0, now - this.lastNow));
       this.lastNow = now;
-      const total = this.elapsed + (now - this.t0);
+      const total = this.elapsed + Math.max(0, now - this.t0);
       const frame = Math.floor((total % LOOP_MS) / FRAME_MS);
       const live = this.lampLive();
       if (live) this.stepLight(dt);
