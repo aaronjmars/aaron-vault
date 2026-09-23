@@ -391,7 +391,7 @@ export class VerbType {
     this.lastPhase = phaseAt(this.elapsed / FRAME_MS);
     const tick = (now: number) => {
       if (!this.running) return;
-      const t = (this.elapsed + (now - this.t0)) % LOOP_MS;
+      const t = (this.elapsed + Math.max(0, now - this.t0)) % LOOP_MS;
       const f = t / FRAME_MS;
       const phase = phaseAt(f);
       if (this.lastPhase && phase !== this.lastPhase) this.onCut?.(phase);

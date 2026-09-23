@@ -243,7 +243,7 @@ export class ShutterType {
     this.t0 = performance.now();
     const tick = (now: number) => {
       if (!this.running) return;
-      const t = (this.elapsed + (now - this.t0)) % LOOP_MS;
+      const t = (this.elapsed + Math.max(0, now - this.t0)) % LOOP_MS;
       this.render(t / FRAME_MS);
       this.raf = requestAnimationFrame(tick);
     };

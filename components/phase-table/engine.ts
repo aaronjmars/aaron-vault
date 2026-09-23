@@ -343,7 +343,7 @@ export class PhaseTable {
     const tick = (now: number) => {
       if (!this.running) return;
 
-      const dt = Math.min(100, now - this.last);
+      const dt = Math.max(0, Math.min(100, now - this.last));
       this.last = now;
       this.phase = (this.phase + (dt / PERIOD_MS) * TAU) % TAU;
 

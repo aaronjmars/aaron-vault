@@ -125,7 +125,7 @@ export class DashCascade {
             : Math.max(this.hoverTarget, this.hover - step);
       }
 
-      const ticks = Math.floor(((now - this.t0) / 1000) * FPS);
+      const ticks = Math.floor((Math.max(0, now - this.t0) / 1000) * FPS);
       const frame = ticks % FRAMES;
 
       const colourMoving = this.hover !== this.hoverTarget || this.hover > 0;

@@ -24,13 +24,16 @@ export default function SymbolsPlayground() {
           host.appendChild(canvas);
           fx = new SymbolsEffect(canvas, {
             cell: 14,
-            bandColors: ["#d4442c", "#e8933a", "#2f7fbf", "#17403f"],
+            // crop into the clip so the settled "Try amo" spans about 85% of the card
+            zoom: 1.3,
+            // dark tones get the densest marks, highlights stay bare paper
+            bandColors: ["#17403f", "#2f7fbf", "#d4442c", "#e8933a"],
             bandStops: [0, 0.28, 0.55, 0.8, 1.0],
             bandGlyphs: [
-              GLYPHS.findIndex((g) => g.name === "dot"),
-              GLYPHS.findIndex((g) => g.name === "diagonal"),
-              GLYPHS.findIndex((g) => g.name === "ring"),
               GLYPHS.findIndex((g) => g.name === "square"),
+              GLYPHS.findIndex((g) => g.name === "ring"),
+              GLYPHS.findIndex((g) => g.name === "diagonal"),
+              GLYPHS.findIndex((g) => g.name === "empty"),
             ],
             bg: "#f7f4ef",
           });

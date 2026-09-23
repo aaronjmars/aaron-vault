@@ -55,8 +55,8 @@ export function FigmaFrame({
     const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(() => {
-      const r = el.getBoundingClientRect();
-      setSize({ w: Math.round(r.width), h: Math.round(r.height) });
+      // layout size, so a scaled-down parent does not change the readout
+      setSize({ w: el.offsetWidth, h: el.offsetHeight });
     });
     ro.observe(el);
     return () => ro.disconnect();

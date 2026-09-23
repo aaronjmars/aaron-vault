@@ -381,7 +381,7 @@ export class BondType {
       if (!this.running) return;
 
       this.clock = (now - this.mounted) / 1000;
-      const t = ((now - this.t0) / 1000) * FPS;
+      const t = (Math.max(0, now - this.t0) / 1000) * FPS;
 
       if (t >= this.cycleTicks) {
         this.t0 = now;

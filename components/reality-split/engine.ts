@@ -305,7 +305,7 @@ export class RealitySplit {
 
       const speed = this.opts.speed ?? 1;
       const loop = this.timeline().loop;
-      const next = this.t + Math.min((now - this.last) / 1000, 0.1) * speed;
+      const next = this.t + Math.max(0, Math.min((now - this.last) / 1000, 0.1)) * speed;
 
       if (next >= loop && this.variants.length > 1) {
         this.applyVariant(this.vi + 1);

@@ -67,7 +67,7 @@ export default function AsciiWordmarkCard({
       data-canvas-card
       aria-label="A word spelled by thousands of particles drifting on a flow field, rendered as a live ASCII glyph grid. Move the cursor to push them and leave a glowing wake."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: "#0b0d1a", color: inkColor }}
+      style={{ background: "#f4f3ee", color: inkColor }}
     />
   );
 }

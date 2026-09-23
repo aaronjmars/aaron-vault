@@ -183,9 +183,13 @@ export class WordStickers {
     this.H = this.host.clientHeight || 1;
   }
 
+  // Scale from the 1344x620 design frame (66px type) by whichever side is
+  // tighter, so the six stickers keep their spacing in small grid cards.
   private stickerFontPx() {
-    const w = this.W > 40 ? this.W : 640;
-    return Math.max(32, Math.min(66, w * 0.088));
+    const w = this.W > 40 ? this.W : 1344;
+    const h = this.H > 40 ? this.H : 620;
+    const k = Math.min(w / 1344, h / 620);
+    return Math.max(11, Math.min(66, 66 * k * 1.45));
   }
 
   private onResize() {

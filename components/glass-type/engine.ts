@@ -34,6 +34,8 @@ import {
   TEX_SS,
 } from "./params";
 
+const B_R_MAX = Math.max(...B_R);
+
 const f = (n: number) => (Number.isInteger(n) ? `${n}.0` : `${n}`);
 
 const VERT = `
@@ -332,7 +334,7 @@ export class GlassType {
     if (!gl || !this.prog || !this.W) return;
     const { W, H } = this;
 
-    const U = Math.min(H, W / (16 / 9));
+    let U = Math.min(H, W / (16 / 9));
     const f = (ms / 1000) * FPS;
     const t = ms / 1000;
 
@@ -348,6 +350,10 @@ export class GlassType {
       offY = -(tableAt(A_Y, f) - 0.5) * U;
       rl = lens.rl * U;
     } else if (scene === 1) {
+      // The ring opens to B_R_MAX * U; shrink this scene so the ring and its
+      // stroke stay inside the shorter side of the card.
+      const fit = Math.min(1, (0.46 * Math.min(W, H)) / (B_R_MAX * B_R_SCALE * U * (lens.rl / 0.49)));
+      U *= fit;
       const word = B_WORDS[f >= B_SWAP_FRAME ? 1 : 0];
       this.setContent(word, B_TEXT_W, U);
       rl = tableAt(B_R, f) * B_R_SCALE * U * (lens.rl / 0.49);

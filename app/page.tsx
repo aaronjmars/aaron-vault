@@ -32,15 +32,11 @@ import SpikeTypeCard from "../components/spiketype/SpikeTypeCard";
 import DotGlobeCard from "../components/dotglobe/DotGlobeCard";
 import ArcadePlayground from "../components/arcade/playground";
 import CodeTrailCard from "../components/code-trail/CodeTrailCard";
-import HoloCard from "../components/holo/HoloCard";
 import GlitchWordCard from "../components/glitch-word/GlitchWordCard";
 import DatamoshCard from "../components/datamosh/DatamoshCard";
-import AiLightsCard from "../components/ai-lights/AiLightsCard";
 import SiriWaveCard from "../components/siri-wave/SiriWaveCard";
 import SmearCard from "../components/smear/SmearCard";
-import PixelBrushCard from "../components/pixel-brush/PixelBrushCard";
 import DotCutCard from "../components/dotcut/DotCutCard";
-import LiquidPlayground from "../components/liquid/playground";
 import EmbroideryCard from "../components/embroidery/EmbroideryCard";
 import BadgeTrailCard from "../components/badge-trail/BadgeTrailCard";
 import BlurGlowCard from "../components/blur-glow/BlurGlowCard";
@@ -48,7 +44,6 @@ import TextRevealCard from "../components/text-reveal/TextRevealCard";
 import BlurRevealCard from "../components/blur-reveal/BlurRevealCard";
 import WordStickersCard from "../components/word-stickers/WordStickersCard";
 import KineticACard from "../components/kinetic-a/KineticACard";
-import SquirclePlayground from "../components/squircle/playground";
 import RansomNotePlayground from "../components/ransom/playground";
 import ChromaGlowPlayground from "../components/chroma/playground";
 import EmbossPlayground from "../components/emboss/playground";
@@ -60,6 +55,7 @@ import HoverVideoPlayground from "../components/hover-video/playground";
 import SvgEditorPlayground from "../components/svg-editor/playground";
 import SymbolsPlayground from "../components/symbols/playground";
 import TyperPlayground from "../components/typer/playground";
+import GLGuard from "../components/gl-guard";
 
 const SECTIONS: { title: string; node: React.ReactNode }[] = [
   { title: "Warp - six cuts, the verb does the work", node: <WarpTypeCard /> },
@@ -94,15 +90,11 @@ const SECTIONS: { title: string; node: React.ReactNode }[] = [
   { title: "Dot globes - three solids handing a mark along the row", node: <DotGlobeCard /> },
   { title: "Arcade pixel - tiny type blown up into pixels", node: <ArcadePlayground /> },
   { title: "Code trail - a staircase of fragments chasing the pointer", node: <CodeTrailCard /> },
-  { title: "Holo - an identity card in holo foil", node: <HoloCard /> },
   { title: "Glitch word - a badge tearing itself apart", node: <GlitchWordCard /> },
   { title: "Datamosh - a corrupted decode, vertical only", node: <DatamoshCard /> },
-  { title: "AI lights - one body becoming four components", node: <AiLightsCard /> },
   { title: "Siri glow - a prism ribbon driven by sound", node: <SiriWaveCard /> },
   { title: "Fade motion - two hundred copies of a word", node: <SmearCard /> },
-  { title: "Pixel brushes - one spiral, three stamps", node: <PixelBrushCard /> },
   { title: "Dotcut - a glyph cut out of a touching mesh", node: <DotCutCard /> },
-  { title: "Liquid UI - cards that pour together", node: <LiquidPlayground /> },
   { title: "Embroidery - word patches stitched in thread", node: <EmbroideryCard /> },
   { title: "Badge trail - typography terms chasing the cursor", node: <BadgeTrailCard /> },
   { title: "Blur glow - a word lit through a bloom halo", node: <BlurGlowCard /> },
@@ -110,7 +102,6 @@ const SECTIONS: { title: string; node: React.ReactNode }[] = [
   { title: "Blur reveal - panels dissolving into focus", node: <BlurRevealCard /> },
   { title: "Word stickers - die-cut vinyl you can fling", node: <WordStickersCard /> },
   { title: "Kinetic A - a letter rippling like water", node: <KineticACard /> },
-  { title: "Squircle - the corner Apple fixed", node: <SquirclePlayground /> },
   { title: "Ransom note - letters torn from magazines", node: <RansomNotePlayground /> },
   { title: "Chromatic glow - light pulling itself apart", node: <ChromaGlowPlayground /> },
   { title: "Emboss - pressed into real plaster", node: <EmbossPlayground /> },
@@ -129,14 +120,14 @@ export default function Home() {
     <main className="page">
       <h1>Motion Type Studies</h1>
       <p className="sub">
-        Sixty self-contained canvas, WebGL and DOM animations. All pause offscreen, when the
+        Fifty-five self-contained canvas, WebGL and DOM animations. All pause offscreen, when the
         tab is hidden and under reduced motion.
       </p>
       <div className="stack">
         {SECTIONS.map((s) => (
           <section className="card-block" key={s.title}>
             <h2>{s.title}</h2>
-            {s.node}
+            <GLGuard>{s.node}</GLGuard>
           </section>
         ))}
       </div>

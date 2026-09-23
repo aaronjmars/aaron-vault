@@ -127,7 +127,7 @@ export class WordCarousel {
     this.last = performance.now();
     const tick = (now: number) => {
       if (!this.running) return;
-      this.t = (this.t + Math.min((now - this.last) / 1000, 0.1)) % LOOP;
+      this.t = (this.t + Math.max(0, Math.min((now - this.last) / 1000, 0.1))) % LOOP;
       this.last = now;
       this.draw(this.t);
       this.raf = requestAnimationFrame(tick);

@@ -235,7 +235,7 @@ export class SlideStack {
     this.prevX.fill(null);
     const tick = (now: number) => {
       if (!this.running) return;
-      this.draw((now - this.t0) / 1000);
+      this.draw(Math.max(0, now - this.t0) / 1000);
       this.raf = requestAnimationFrame(tick);
     };
     this.raf = requestAnimationFrame(tick);

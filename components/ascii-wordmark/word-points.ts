@@ -46,15 +46,28 @@ export function buildWordPoints(
     for (let i = 0; i < 256; i++) lit.push([W / 2, H / 2]);
   }
 
-  const aspect = W / H;
+  // normalise to the ink's own bounds, not the 1024x320 canvas, so the
+  // camera frames the letters themselves and the word fills the card
+  let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+  for (const [x, y] of lit) {
+    if (x < x0) x0 = x;
+    if (x > x1) x1 = x;
+    if (y < y0) y0 = y;
+    if (y > y1) y1 = y;
+  }
+  const inkW = Math.max(stride, x1 - x0 + stride);
+  const inkH = Math.max(stride, y1 - y0 + stride);
+  const cx = (x0 + x1 + stride) / 2;
+  const cy = (y0 + y1 + stride) / 2;
+  const aspect = inkW / inkH;
   const positions = new Float32Array(count * 4);
   for (let i = 0; i < count; i++) {
     // random target on the word's ink, with jitter and a lifetime seed
     const p = lit[(Math.random() * lit.length) | 0];
     const jx = (Math.random() - 0.5) * stride;
     const jy = (Math.random() - 0.5) * stride;
-    const nx = ((p[0] + jx) / W - 0.5) * 2 * aspect;
-    const ny = -((p[1] + jy) / H - 0.5) * 2;
+    const nx = ((p[0] + jx - cx) / inkH) * 2;
+    const ny = -((p[1] + jy - cy) / inkH) * 2;
     const nz = (Math.random() - 0.5) * 0.08;
 
     positions[i * 4 + 0] = nx;

@@ -307,7 +307,7 @@ export class FloodType {
     const loop = (now: number) => {
       if (!this.running) return;
 
-      const dt = Math.min((now - this.last) / 1000, 0.1);
+      const dt = Math.max(0, Math.min((now - this.last) / 1000, 0.1));
       this.last = now;
 
       this.dTick = dt * FPS;

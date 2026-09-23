@@ -51,7 +51,7 @@ export class InkFlood {
     this.t0 = performance.now();
     const tick = (now: number) => {
       if (!this.running) return;
-      this.draw((now - this.t0) / 1000);
+      this.draw(Math.max(0, now - this.t0) / 1000);
       this.raf = requestAnimationFrame(tick);
     };
     this.raf = requestAnimationFrame(tick);

@@ -1108,7 +1108,7 @@ export class LoudBurst {
     this.lastTick = -1;
     const tick = (now: number) => {
       if (!this.running) return;
-      const t = Math.floor(((now - this.t0) / 1000) * FPS) % TICKS;
+      const t = Math.floor((Math.max(0, now - this.t0) / 1000) * FPS) % TICKS;
       if (t !== this.lastTick) {
 
         if (t < this.lastTick) {
