@@ -1,0 +1,140 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { VerbType } from "./engine";
+import { FONT_VAR, FONT_WEIGHT, PHASES } from "./params";
+import { onTransitionChange } from "../../lib/view-transition";
+import { cutTick } from "../../lib/sound";
+import { hapticTap } from "../../lib/haptics";
+
+export function VerbTypeCard({
+  bare = false,
+  viewTransitionName,
+}: {
+  bare?: boolean;
+  viewTransitionName?: string;
+} = {}) {
+  void bare;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const host = hostRef.current;
+    if (!canvas || !host) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    let engine: VerbType | null = null;
+    let onScreen = false;
+    let hidden = false;
+    let inTransition = false;
+    let held = false;
+
+    const sync = () => {
+      if (!engine || reduced) return;
+      if (onScreen && !hidden && !inTransition && !held) engine.start();
+      else engine.stop();
+    };
+
+    const raf = requestAnimationFrame(() => {
+      if (!canvasRef.current) return;
+
+      const probe = document.createElement("span");
+      probe.style.cssText = `position:absolute;visibility:hidden;font-family:var(${FONT_VAR})`;
+      probe.textContent = "Ag";
+      document.body.appendChild(probe);
+      const fam = getComputedStyle(probe).fontFamily || "sans-serif";
+      document.body.removeChild(probe);
+
+      engine = new VerbType(canvas, fam);
+      if (!engine.ok) return;
+
+      engine.onCut = () => cutTick();
+      if (reduced) engine.renderStill();
+      else sync();
+
+      if (document.fonts?.load) {
+        const first = fam.split(",")[0].replace(/["']/g, "").trim();
+        document.fonts
+          .load(`${FONT_WEIGHT} 1em "${first}"`)
+          .then(() => engine?.refreshFont(), () => {});
+      }
+    });
+
+    const io = new IntersectionObserver(
+      (es) => {
+        onScreen = es[0]?.isIntersecting ?? false;
+        sync();
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(canvas);
+
+    const onVis = () => {
+      hidden = document.hidden;
+      sync();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    const grab = () => {
+      if (held) return;
+      held = true;
+      hapticTap();
+      sync();
+    };
+    const release = () => {
+      if (!held) return;
+      held = false;
+      sync();
+    };
+    host.addEventListener("pointerdown", grab);
+    host.addEventListener("pointerup", release);
+    host.addEventListener("pointercancel", release);
+    host.addEventListener("pointerleave", release);
+
+    const offTransition = onTransitionChange((active) => {
+      inTransition = active;
+      sync();
+    });
+
+    let rt = 0;
+    const onResize = () => {
+      window.clearTimeout(rt);
+      rt = window.setTimeout(() => engine?.resize(), 120);
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVis);
+      host.removeEventListener("pointerdown", grab);
+      host.removeEventListener("pointerup", release);
+      host.removeEventListener("pointercancel", release);
+      host.removeEventListener("pointerleave", release);
+      offTransition();
+      window.removeEventListener("resize", onResize);
+      window.clearTimeout(rt);
+      engine?.destroy();
+      engine = null;
+    };
+  }, []);
+
+  return (
+    <div
+      ref={hostRef}
+      data-canvas-card
+      role="img"
+      aria-label="Five words appear one after another in a plain grotesque, each acting out its own meaning and each printed in its own colour. MOVE's bone letters hop around a cobalt field and slot into place. SKEW's vermilion letters lean over one by one on cream. ROTATE wheels the whole word around the middle of a forest-green frame while its O and second T trade places. BREAK drops its last three black letters onto the floor of a yellow field, where they bounce. CONDENSE squeezes coral letters on aubergine thinner and thinner until they are a hairline. Pressing the picture holds the frame."
+      style={{
+        ...(viewTransitionName ? { viewTransitionName } : null),
+        backgroundColor: PHASES[0].ground,
+      }}
+      className="relative mx-auto aspect-video w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
+    >
+      <canvas ref={canvasRef} className="h-full w-full" />
+    </div>
+  );
+}
+
+export default VerbTypeCard;
