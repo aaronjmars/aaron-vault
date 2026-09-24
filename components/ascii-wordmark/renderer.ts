@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { getAnimationTheme } from "../../lib/animation-theme";
 import { GPUComputationRenderer } from "three/examples/jsm/misc/GPUComputationRenderer.js";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
@@ -232,6 +233,7 @@ export class AsciiWordmarkRenderer {
         uAsciiMax: { value: 1.0 },
         uAspect: { value: w / h },
         uInk: { value: new THREE.Vector3(ink.r, ink.g, ink.b) },
+        uThemed: { value: getAnimationTheme().foreground ? 1 : 0 },
         uTrail: { value: this.trailPos },
         uTrailAge: { value: this.trailAge },
         uTrailOn: { value: 0 },

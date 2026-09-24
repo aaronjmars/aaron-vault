@@ -22,6 +22,9 @@ uniform float uSh;
 uniform float uContrast;
 uniform float uBright;
 uniform vec3  uTint;
+uniform vec3  uThemeBg;
+uniform vec3  uThemeInk;
+uniform float uThemeOn;
 uniform vec2  uTexOff;
 uniform float uTexScale;
 uniform float uReveal;
@@ -53,10 +56,10 @@ void main(){
   vec2 puv = origin + uv * span;
   float p = texture2D(uPlaster, puv).r;
   p = clamp((p-0.5)*uContrast + 0.5, 0.0, 1.0);
-  vec3 base = uTint * p * uBright;
-
   float face = smoothstep(0.4, 0.62, crisp);
+  vec3 base = uTint * p * uBright;
   base *= mix(1.0, 0.86, face * uReveal);
+  if (uThemeOn > 0.5) base = mix(uThemeBg, uThemeInk, face * uReveal);
 
   vec3 c = base;
   c += hi * uHi * uReveal;
@@ -65,7 +68,7 @@ void main(){
   // grunge overlay via soft-light
   float gr = texture2D(uGrunge, uv).r;
   vec3 ov = mix(2.0*c*gr, 1.0-2.0*(1.0-c)*(1.0-gr), step(0.5, c));
-  c = mix(c, ov, uGrungeAmt);
+  c = mix(c, ov, uGrungeAmt * (1.0 - uThemeOn));
 
   gl_FragColor = vec4(clamp(c,0.0,1.0), 1.0);
 }

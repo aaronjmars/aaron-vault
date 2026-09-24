@@ -1,3 +1,4 @@
+import { themeColor, themePaint } from "../../lib/animation-theme";
 import {
   ACCENT,
   BLOCK,
@@ -286,7 +287,7 @@ export class SlideStack {
     const H = this.canvas.height / dpr;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = GROUND;
+    ctx.fillStyle = themeColor("background", GROUND);
     ctx.fillRect(0, 0, W, H);
 
     ctx.save();
@@ -366,7 +367,7 @@ export class SlideStack {
       ctx.closePath();
       ctx.lineWidth = WAKE_WIDTH;
       ctx.lineJoin = "round";
-      ctx.strokeStyle = WAKE_TINT;
+      ctx.strokeStyle = themeColor("accent", WAKE_TINT);
       ctx.stroke();
       ctx.globalAlpha = 1;
     }
@@ -392,7 +393,7 @@ export class SlideStack {
     ctx.moveTo(hull[0][0], hull[0][1]);
     for (let i = 1; i < hull.length; i++) ctx.lineTo(hull[i][0], hull[i][1]);
     ctx.closePath();
-    ctx.fillStyle = fill;
+    ctx.fillStyle = themePaint("accent", fill);
     ctx.fill();
 
     const dt = still ? 0 : Math.max(1, (t - this.prevAt) * 1000);
@@ -413,7 +414,7 @@ export class SlideStack {
         const px = Math.abs(travelled) / dt;
         if (px > BLUR_MIN_SPEED && speed > 0) {
           const reach = -travelled * BLUR_REACH;
-          ctx.fillStyle = BLOCK;
+          ctx.fillStyle = themeColor("accent", BLOCK);
           for (let k = 1; k <= BLUR_TAPS; k++) {
             const f = k / BLUR_TAPS;
             ctx.globalAlpha = (1 - f) * 0.42 * speed;
@@ -424,7 +425,7 @@ export class SlideStack {
       }
       this.prevX[i] = nowFrac;
 
-      ctx.fillStyle = BLOCK;
+      ctx.fillStyle = themeColor("accent", BLOCK);
       ctx.fillRect(p.x, p.y, p.w, p.h);
 
       const pad = LABEL_PAD_X * S * scaleOf(i);
@@ -436,14 +437,14 @@ export class SlideStack {
       const split = SPLIT_MAX * speed;
       if (split > 0.02) {
         ctx.globalAlpha = 0.5;
-        ctx.fillStyle = SPLIT_WARM;
+        ctx.fillStyle = themeColor("foreground", SPLIT_WARM);
         ctx.fillText(label, lx - split, ly);
-        ctx.fillStyle = SPLIT_COOL;
+        ctx.fillStyle = themeColor("foreground", SPLIT_COOL);
         ctx.fillText(label, lx + split, ly);
         ctx.globalAlpha = 1;
       }
 
-      ctx.fillStyle = GROUND;
+      ctx.fillStyle = themeColor("foreground", GROUND);
       ctx.fillText(label, lx, ly);
     }
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef, useState } from "react";
 import { onTransitionChange } from "../../lib/view-transition";
 import {
@@ -205,8 +206,8 @@ export function CodeTrailCard({ bare = false }: { bare?: boolean } = {}) {
     b: Row["badges"][number],
     first: boolean,
   ): React.CSSProperties => ({
-    background: b.bg,
-    color: b.fg,
+    background: themeColor("accent", b.bg),
+    color: themeColor("foreground", b.fg),
     height: metrics.line,
     lineHeight: `${metrics.line}px`,
     fontSize: metrics.font,
@@ -230,6 +231,7 @@ export function CodeTrailCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="A trail of code fragments on brightly coloured bars, stacked into a staircase that follows the pointer across the card"
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-hover)]"
+      style={{ backgroundColor: themeColor("background", "#f2f2f4") }}
     >
       {rows.map((r) => {
         const shown = badgeCount(r.slot, ROWS);

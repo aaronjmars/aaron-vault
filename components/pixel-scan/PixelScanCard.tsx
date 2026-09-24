@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { PixelScanField, drawStaticWord } from "./engine";
@@ -92,7 +93,7 @@ export default function PixelScanCard({
       data-canvas-card
       aria-label="A word assembled out of a spray of tiny coloured blocks by a sweeping band; the cursor lights a pool of blocks with a lasting wake."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f5f4f9]"
-      style={{ ["--font-kyoto" as string]: "Georgia, serif" }}
+      style={{ ["--font-kyoto" as string]: "Georgia, serif", backgroundColor: themeColor("background", "#f5f4f9") }}
     />
   );
 }

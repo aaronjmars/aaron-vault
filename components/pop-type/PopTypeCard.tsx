@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { PopType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT, GROUND } from "./params";
@@ -98,7 +99,7 @@ export function PopTypeCard({
       aria-label="The word Motion in chunky letters with a hard drop shadow in a second colour on a white field, set so tight each letter overlaps the next, shown at a stepped ten frames a second like a flipbook. The letters fall in one by one from the top, stretching as they drop and squashing wide as they land, their shadows arriving a beat behind, and settle. The word then swells as if inflating, slowly at first and then quickly, and pops into a ring of small dashes in the next colour that flies outward and is gone. The field sits empty for a beat before the letters fall again in a new pair of colours."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: GROUND,
+        backgroundColor: themeColor("background", GROUND),
       }}
       className="relative mx-auto aspect-[9/5] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

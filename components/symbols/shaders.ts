@@ -50,7 +50,7 @@ vec4 sampleGlyphB(int i, vec2 uv) {
 }
 
 void main() {
-  vec3 paper = vec3(1.0);
+  vec3 paper = bgColor;
   vec2 step = vec2(cell) / resolution;
 
   vec2 suv = cover(cellUV(step));
@@ -72,7 +72,7 @@ void main() {
       float a = mix(gB.a, gA.a, morphT);
       vec3 gcol = mix(gB.rgb, gA.rgb, morphT);
       vec3 col = mix(bandColorB[i], bandColor[i], morphT);
-      vec3 sym = mix(paper, gcol, a);
+      vec3 sym = mix(vec3(1.0), gcol, a);
       float k = smoothstep(0.0, 1.0, lum(sym));
       gl_FragColor = vec4(mix(col, paper, k), 1.0);
     }

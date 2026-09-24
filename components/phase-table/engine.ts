@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   AMP_RATIO,
   CELL_LAG,
@@ -225,7 +226,7 @@ export class PhaseTable {
 
     const metal = this.metal;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = metal ? metal.bg : BG;
+    ctx.fillStyle = themeColor("background", metal ? metal.bg : BG);
     ctx.fillRect(0, 0, this.w, this.h);
 
     const { amp, pitch, ox, oy } = this;
@@ -236,7 +237,7 @@ export class PhaseTable {
 
       ctx.beginPath();
       for (const cell of this.cells) this.trace(ctx, cell, cp, sp);
-      ctx.strokeStyle = INK;
+      ctx.strokeStyle = themeColor("foreground", INK);
       ctx.lineWidth = this.lw;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
@@ -308,7 +309,7 @@ export class PhaseTable {
       for (let b = 0; b < SHADE_BUCKETS; b++) {
         const path = paths[b];
         if (!path) continue;
-        ctx.strokeStyle = row[b];
+        ctx.strokeStyle = themeColor("foreground", row[b]);
         ctx.stroke(path);
       }
     }

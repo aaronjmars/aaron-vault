@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ARRIVE_SPREAD,
   BASELINE_1,
@@ -298,10 +299,10 @@ export class BondType {
     const H = this.canvas.height;
     const W = this.canvas.width;
 
-    ctx.fillStyle = GREEN;
+    ctx.fillStyle = themeColor("background", GREEN);
     ctx.fillRect(0, 0, W, H);
     ctx.font = this.font;
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = themeColor("foreground", WHITE);
 
     const unrest = this.unrest(t);
     const off = this.letters.map((l, i) => {
@@ -323,7 +324,7 @@ export class BondType {
       l.y + (l.top + l.bottom) / 2 + off[i][1],
     ]);
 
-    ctx.fillStyle = WHITE;
+    ctx.fillStyle = themeColor("foreground", WHITE);
     const cell = this.cell;
     for (const [ia, ib] of this.pairs) {
       const A = this.letters[ia];

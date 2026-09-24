@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { traceWord, prepare, type Edge } from "./outline";
 import { grow, type Spike } from "./spikes";
@@ -340,12 +341,12 @@ export function SpikeTypeCard({ bare = false }: { bare?: boolean } = {}) {
         ctx.closePath();
       }
 
-      ctx.fillStyle = PALETTE.mark;
+      ctx.fillStyle = themeColor("foreground", PALETTE.mark);
       ctx.fill("nonzero");
 
       ctx.save();
       ctx.globalCompositeOperation = "destination-over";
-      ctx.strokeStyle = PALETTE.line;
+      ctx.strokeStyle = themeColor("accent", PALETTE.line);
 
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
@@ -354,7 +355,7 @@ export function SpikeTypeCard({ bare = false }: { bare?: boolean } = {}) {
 
       const hueSpan = h * HUE_REACH;
       let lastStep = -1;
-      ctx.strokeStyle = HUE_RAMP[0];
+      ctx.strokeStyle = themeColor("accent", HUE_RAMP[0]);
 
       for (const sub of subpaths) {
         const n = sub.length / 2;
@@ -374,7 +375,7 @@ export function SpikeTypeCard({ bare = false }: { bare?: boolean } = {}) {
             }
           }
           if (step !== lastStep) {
-            ctx.strokeStyle = HUE_RAMP[step];
+            ctx.strokeStyle = themeColor("accent", HUE_RAMP[step]);
             lastStep = step;
           }
 
@@ -389,7 +390,7 @@ export function SpikeTypeCard({ bare = false }: { bare?: boolean } = {}) {
         }
       }
 
-      ctx.fillStyle = PALETTE.ground;
+      ctx.fillStyle = themeColor("background", PALETTE.ground);
       ctx.fillRect(0, 0, w, h);
       ctx.restore();
     };
@@ -495,7 +496,7 @@ export function SpikeTypeCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="The word mango knocked out in cream from a bright yellow ground, outlined in leaf green, its letters ragged and bristling with hundreds of fine hand-drawn spikes of wildly varying length; the spikes breathe slowly and bend away from the pointer"
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: PALETTE.ground }}
+      style={{ background: themeColor("background", PALETTE.ground) }}
     >
       <canvas ref={canvasRef} className="block h-full w-full" />
     </div>

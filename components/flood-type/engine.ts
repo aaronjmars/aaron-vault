@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   CYCLE_TICKS,
   DEPTH_AT_REST,
@@ -356,7 +357,7 @@ export class FloodType {
     if (!ctx || !this.glyphs.length) return;
     const t = this.tick;
 
-    ctx.fillStyle = this.preset.bg;
+    ctx.fillStyle = themeColor("background", this.preset.bg);
     ctx.fillRect(0, 0, this.w, this.h);
 
     const zoomU = (t - ZOOM_START) / ZOOM_TICKS;
@@ -389,7 +390,7 @@ export class FloodType {
     const open = lead - 1;
     const shift = [(this.c1 - pivot) * open, (this.c2 - pivot) * open];
 
-    ctx.fillStyle = this.preset.ink;
+    ctx.fillStyle = themeColor("foreground", this.preset.ink);
     ctx.font = `${FONT_WEIGHT} ${this.fontPx}px ${this.family}`;
     ctx.textAlign = "left";
     ctx.textBaseline = "alphabetic";

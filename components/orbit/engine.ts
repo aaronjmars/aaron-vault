@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   BG,
   RING_R_MIN,
@@ -594,7 +595,7 @@ export class Orbit {
     const cy = H / 2;
 
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = BG;
+    ctx.fillStyle = themeColor("background", BG);
     ctx.fillRect(0, 0, W, H);
 
     this.wash(cx, cy, S, t, WASH_A_COLOR, WASH_A_PERIOD, 0);
@@ -608,7 +609,7 @@ export class Orbit {
     const ringR = (RING_R_MIN + (RING_R_MAX - RING_R_MIN) * breath) * S;
     ctx.beginPath();
     ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
-    ctx.strokeStyle = RING_COLOR;
+    ctx.strokeStyle = themeColor("accent", RING_COLOR);
     ctx.lineWidth = Math.max(1.25, RING_STROKE * S);
     ctx.stroke();
 
@@ -753,7 +754,7 @@ export class Orbit {
       ctx.shadowOffsetY = SHADOW_Y * h;
     }
 
-    ctx.fillStyle = color;
+    ctx.fillStyle = themeColor("accent", color);
     const ah = ARROW_K * h;
     const k = ah / 24;
     ctx.save();
@@ -781,7 +782,7 @@ export class Orbit {
     ctx.fillRect(x0, y0, pw, h);
     ctx.restore();
 
-    ctx.fillStyle = "#fff";
+    ctx.fillStyle = themeColor("foreground", "#fff");
     ctx.font = `600 ${fontPx}px ${this.fontFamily}`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";

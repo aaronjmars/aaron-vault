@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { DotCut } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -104,6 +105,7 @@ export function DotCutCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="A dense grid of touching circles with symbols and patterns cut out of them as negative space. The field continuously reorganises between a letter, rings, columns, checks, boxes and bars, and rubbing the pointer across it retracts the mesh."
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#1f45f5]"
+      style={{ backgroundColor: themeColor("background", "#1f45f5") }}
     />
   );
 }

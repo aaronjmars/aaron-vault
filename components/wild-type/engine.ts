@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import { MESH } from "./mesh";
 import { TYPE_POSE, TYPE_START } from "./motion";
 import { traceWord, type TracedGlyph, type TracedWord } from "./trace";
@@ -365,7 +366,7 @@ export class WildType {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = mix(BG, accent, Math.min(1, stretch / 2.2) * BG_GLOW);
+    ctx.fillStyle = themeColor("background", mix(BG, accent, Math.min(1, stretch / 2.2) * BG_GLOW));
     ctx.fillRect(0, 0, W, H);
 
     if (!prep || t < BLANK_TICKS) {
@@ -395,7 +396,7 @@ export class WildType {
     const typing = typingIn || typingOut;
 
     if (lag) {
-      ic.fillStyle = accent;
+      ic.fillStyle = themeColor("accent", accent);
       for (const g of prep.glyphs) {
         const p = new Path2D();
         for (const r of g.rings) this.addRing(p, r, lag, null, half, ox, oy, stretch);
@@ -403,7 +404,7 @@ export class WildType {
       }
     }
 
-    ic.fillStyle = INK;
+    ic.fillStyle = themeColor("foreground", INK);
     for (const g of prep.glyphs) {
       let pose: number[] | null = null;
       if (typing) {

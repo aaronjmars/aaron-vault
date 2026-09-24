@@ -1,4 +1,5 @@
 import { PG_VERT, PG_FRAG } from "./pg-shader";
+import { getAnimationTheme, themeRgb } from "../../lib/animation-theme";
 import { makeContentField, type Content } from "./content-mask";
 import { mediaUrl } from "../../lib/video-sources";
 import type { EmbossParams } from "./params";
@@ -55,7 +56,7 @@ export class EmbossPlayground {
 
     for (const u of [
       "uField", "uPlaster", "uGrunge", "uGrungeAmt", "uTexel", "uLight", "uLightZ",
-      "uDepth", "uHi", "uSh", "uContrast", "uBright", "uTint", "uTexOff", "uTexScale",
+      "uDepth", "uHi", "uSh", "uContrast", "uBright", "uTint", "uThemeBg", "uThemeInk", "uThemeOn", "uTexOff", "uTexScale",
       "uReveal", "uAspect",
     ]) this.loc[u] = gl.getUniformLocation(this.prog!, u);
 
@@ -196,6 +197,9 @@ export class EmbossPlayground {
     gl.uniform1f(this.loc.uContrast, p.contrast);
     gl.uniform1f(this.loc.uBright, p.bright);
     gl.uniform3f(this.loc.uTint, p.tint[0], p.tint[1], p.tint[2]);
+    gl.uniform3fv(this.loc.uThemeBg, themeRgb("background", p.tint, 1));
+    gl.uniform3fv(this.loc.uThemeInk, themeRgb("foreground", p.tint, 1));
+    gl.uniform1f(this.loc.uThemeOn, getAnimationTheme().foreground || getAnimationTheme().background ? 1 : 0);
     gl.uniform2f(this.loc.uTexOff, p.texOffset[0], p.texOffset[1]);
     gl.uniform1f(this.loc.uTexScale, p.texScale);
     gl.uniform1f(this.loc.uReveal, 1);

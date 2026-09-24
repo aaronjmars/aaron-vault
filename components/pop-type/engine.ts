@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   FONT_WEIGHT,
   FRAME_MS,
@@ -157,7 +158,7 @@ export class PopType {
       g.font = this.font(fontPx);
       g.textBaseline = "alphabetic";
       g.textAlign = "left";
-      g.fillStyle = colour;
+      g.fillStyle = themeColor("foreground", colour);
       g.fillText(WORD[i], SPRITE_PAD - m.left * fontPx, SPRITE_PAD - m.top * fontPx);
     }
     const sp = { canvas: c, ink: { x: SPRITE_PAD, y: SPRITE_PAD, w, h } };
@@ -188,7 +189,7 @@ export class PopType {
     const f = frameStart(t);
     const k = this.scale();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = GROUND;
+    ctx.fillStyle = themeColor("background", GROUND);
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     if (this.rests.length !== N) return;
     ctx.setTransform(k, 0, 0, k, 0, 0);
@@ -212,7 +213,7 @@ export class PopType {
       const fp = dropPose(i, t);
       if (fp.live) this.glyph(ctx, i, face, poseBox(rest, fp), A);
     }
-    ctx.fillStyle = shadow;
+    ctx.fillStyle = themeColor("accent", shadow);
     for (let i = 0; i < N; i++) {
       const m = markAt(i, t);
       if (!m) continue;
@@ -230,7 +231,7 @@ export class PopType {
     if (!ring || ring.alpha <= 0) return;
     ctx.save();
     ctx.globalAlpha = ring.alpha;
-    ctx.strokeStyle = colour;
+    ctx.strokeStyle = themeColor("foreground", colour);
     ctx.lineWidth = POP_DASH.width;
     ctx.lineCap = "butt";
     ctx.beginPath();

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { project } from "./sphere";
 import { GRID, NAMES, lit } from "./glyphs";
@@ -157,7 +158,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
       const r = h * RADIUS;
       const FIELD = h * FIELD_RATIO;
 
-      ctx.fillStyle = GROUND;
+      ctx.fillStyle = themeColor("background", GROUND);
       ctx.fillRect(0, 0, w, h);
 
       for (let g = 0; g < COUNT; g++) {
@@ -284,7 +285,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
 
           roundQuad(tl.quad, ROUND);
         }
-        ctx.fillStyle = duo.off;
+        ctx.fillStyle = themeColor("accent", duo.off);
         ctx.fill();
 
         ctx.beginPath();
@@ -293,7 +294,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
           if (tl.z < 0.55) continue;
           roundQuad(tl.quad, ROUND);
         }
-        ctx.fillStyle = duo.offNear;
+        ctx.fillStyle = themeColor("accent", duo.offNear);
         ctx.fill();
 
         if (wave > 0 && wave < 1) {
@@ -311,7 +312,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
             }
             if (!any) continue;
 
-            ctx.fillStyle = mix(duo.offNear, duo.on, hi * TRAIL_REACH);
+            ctx.fillStyle = themeColor("accent", mix(duo.offNear, duo.on, hi * TRAIL_REACH));
             ctx.fill();
           }
         }
@@ -327,7 +328,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
           } else {
             roundQuad(tl.quad, ROUND);
           }
-          ctx.fillStyle = p > 0.01 ? duo.hot : duo.on;
+          ctx.fillStyle = themeColor("foreground", p > 0.01 ? duo.hot : duo.on);
           ctx.fill();
         }
       }
@@ -429,7 +430,7 @@ export function DotGlobeCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="Three rounded-cube forms side by side on one grey ground, coloured lime on aubergine, coral on petrol teal, and acid yellow on cobalt. Each is tiled with a grid of rounded squares that crowd together and shrink toward the edges as the surface curves away, rocks gently on its own rhythm, and carries a bright symbol painted onto its surface. The marks pass along the row from left to right, each arriving as a bright wave spreading across the face, and now and then one form turns all the way round and comes back carrying the next mark. Moving the pointer leans the forms toward it and opens the tiles underneath."
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: GROUND }}
+      style={{ background: themeColor("background", GROUND) }}
     >
       <canvas ref={canvasRef} className="block h-full w-full" />
     </div>

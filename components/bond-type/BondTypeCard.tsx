@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { BondType } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -100,7 +101,7 @@ export function BondTypeCard({
       role="img"
       aria-label="The name Arlan Marat in a white pixel typeface on bright red. The letters drift apart into a molecule diagram, fine stair-stepped runs of square pixels bonding each letter to the next within its word. The chain re-scatters through a few different shapes, then the letters glide back into the plain typeset name and it starts again with a new sequence."
       style={{
-        backgroundColor: GREEN,
+        backgroundColor: themeColor("background", GREEN),
         ...(viewTransitionName ? { viewTransitionName } : undefined),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"

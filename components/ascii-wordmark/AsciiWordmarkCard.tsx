@@ -1,12 +1,13 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { AsciiWordmarkRenderer } from "./renderer";
 import { onTransitionChange } from "../../lib/view-transition";
 
 export default function AsciiWordmarkCard({
   word = "vault",
-  inkColor = "#cdd3ff",
+  inkColor = themeColor("foreground", "#cdd3ff"),
 }: {
   word?: string;
   inkColor?: string;
@@ -67,7 +68,7 @@ export default function AsciiWordmarkCard({
       data-canvas-card
       aria-label="A word spelled by thousands of particles drifting on a flow field, rendered as a live ASCII glyph grid. Move the cursor to push them and leave a glowing wake."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: "#f4f3ee", color: inkColor }}
+      style={{ background: themeColor("background", "#f4f3ee"), color: inkColor }}
     />
   );
 }

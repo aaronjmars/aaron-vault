@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { FloodType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT, PRESETS } from "./params";
@@ -120,7 +121,7 @@ export function FloodTypeCard({
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
 
-        backgroundColor: PRESETS[0].bg,
+        backgroundColor: themeColor("background", PRESETS[0].bg),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

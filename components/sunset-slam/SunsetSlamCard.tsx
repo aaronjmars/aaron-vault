@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { SunsetSlam } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -91,7 +93,7 @@ export function SunsetSlamCard({
       data-canvas-card
       role="img"
       aria-label="The word sunset, in white slab letters on a pre-dawn sky, squashes down and then slams forward into a chunky retro logo trailing a fan of dawn colour - deep navy through violet and rose to a gold edge. It cools to a resting sticker, holds, then the fan retracts and the word returns to where it started."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#0b0f1f") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-black"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

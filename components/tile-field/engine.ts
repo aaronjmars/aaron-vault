@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 const TAU = Math.PI * 2;
 
 type Row = {
@@ -290,7 +291,7 @@ export class TileField {
       if (lit[i] > 0.02) litList.push(i);
     }
 
-    ctx.fillStyle = REST;
+    ctx.fillStyle = themeColor("foreground", REST);
     ctx.fill(grayP);
 
     for (let hsI = 0; hsI < HUE_STEPS; hsI++) {
@@ -298,7 +299,7 @@ export class TileField {
       for (let as = 0; as < ALPHA_STEPS; as++) {
         const p = buckets[hsI][as];
         ctx.globalAlpha = (as + 1) / ALPHA_STEPS;
-        ctx.fillStyle = `oklch(${this.stepL[hsI]} ${this.stepC[hsI]} ${hue})`;
+        ctx.fillStyle = themeColor("foreground", `oklch(${this.stepL[hsI]} ${this.stepC[hsI]} ${hue})`);
         ctx.fill(p);
       }
     }
@@ -315,12 +316,12 @@ export class TileField {
         const amp = (0.45 + ph) * cell * 0.28;
         const jx = x + Math.sin(0.05 * x + 1.3 * tt + ph * TAU) * amp;
         const jy = y + Math.cos(0.04 * y - 0.9 * tt + ph * TAU) * amp;
-        ctx.fillStyle = `rgba(${SPARK},${(0.1 * L).toFixed(3)})`;
+        ctx.fillStyle = themeColor("accent", `rgba(${SPARK},${(0.1 * L).toFixed(3)})`);
         ctx.fillRect(jx - gh * 1.5, jy - gh * 1.5, gsz * 1.5, gsz * 1.5);
-        ctx.fillStyle = `rgba(${SPARK},${(0.55 * L).toFixed(3)})`;
+        ctx.fillStyle = themeColor("accent", `rgba(${SPARK},${(0.55 * L).toFixed(3)})`);
         ctx.fillRect(jx - gh, jy - gh, gsz, gsz);
       } else {
-        ctx.fillStyle = `oklch(${GLOW_LCH} / ${(0.85 * L).toFixed(3)})`;
+        ctx.fillStyle = themeColor("foreground", `oklch(${GLOW_LCH} / ${(0.85 * L).toFixed(3)})`);
         ctx.fillRect(x - gh, y - gh, gsz, gsz);
       }
     }
@@ -337,7 +338,7 @@ export class TileField {
       const h = sz / 2;
       grayP.rect(this.px[i] - h, this.py[i] - h, sz, sz);
     }
-    ctx.fillStyle = REST;
+    ctx.fillStyle = themeColor("foreground", REST);
     ctx.fill(grayP);
   }
 

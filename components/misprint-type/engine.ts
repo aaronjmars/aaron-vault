@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ART,
   ART_H,
@@ -236,7 +237,7 @@ export class MisprintType {
     const { ctx, canvas } = L;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = 1;
-    ctx.fillStyle = GROUND;
+    ctx.fillStyle = themeColor("background", GROUND);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     if (!this.grain) return;
     const off = sheetOffset(n);
@@ -269,7 +270,7 @@ export class MisprintType {
     ctx.font = this.font(weight, px);
     ctx.textBaseline = "alphabetic";
     ctx.textAlign = "left";
-    ctx.fillStyle = colour;
+    ctx.fillStyle = themeColor("foreground", colour);
     for (const line of LINES) {
       if (only && line !== only) continue;
       const run = runs.get(line.text);
@@ -424,7 +425,7 @@ export class MisprintType {
     for (let i = 0; i <= n * 2; i++) {
       const stop = i / (n * 2);
       const idx = (((i - Math.round(phase * n)) % n) + n) % n;
-      g.addColorStop(stop, FOIL_STOPS[idx]);
+      g.addColorStop(stop, themeColor("foreground", FOIL_STOPS[idx]));
     }
     ctx.globalCompositeOperation = "source-in";
     ctx.fillStyle = g;

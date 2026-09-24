@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { Orbit } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -187,7 +189,7 @@ export function OrbitCard({
       data-canvas-card
       role="img"
       aria-label="Twenty-six named multiplayer cursors circling on an invisible sphere, growing and sharpening as they pass the front, blurring and fading as they slip behind, around a thin violet ring that slowly breathes. Now and then one of them types, clicks, or nudges itself a little off course."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#fdfdfd") }}
       className="relative mx-auto aspect-[1344/620] w-full cursor-grab select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#fdfdfd] active:cursor-grabbing"
     >
       <canvas ref={canvasRef} className="h-full w-full cursor-none" />

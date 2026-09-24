@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import { PANELS } from "./panels";
 import { RevealGL } from "./gl";
 import { renderText } from "./text-texture";
@@ -86,7 +87,7 @@ export class BlurReveal {
     Object.assign(stage.style, {
       position: "absolute",
       inset: "0",
-      background: PANELS[0].bg,
+      background: themeColor("background", PANELS[0].bg),
       transition: `background-color ${BG_MS}ms ease`,
       overflow: "hidden",
       fontFamily: "var(--font-neue-corp), system-ui, sans-serif",
@@ -126,20 +127,20 @@ export class BlurReveal {
 
   private mountPanel(i: number) {
     const p = PANELS[i];
-    this.stage.style.background = p.bg;
-    this.edge = hexToRgb(p.fg);
+    this.stage.style.background = themeColor("background", p.bg);
+    this.edge = hexToRgb(themeColor("accent", p.fg));
     if (this.useGL && this.gl) {
       const t = renderText({
         line: p.line,
         font: this.fontFamily,
-        fill: p.fg,
+        fill: themeColor("foreground", p.fg),
         cardW: this.W,
         cardH: this.H,
         dpr: this.dpr,
       });
       this.gl.setTexture(t.canvas);
     } else {
-      this.mountFallback(p.line, p.fg);
+      this.mountFallback(p.line, themeColor("foreground", p.fg));
     }
   }
 

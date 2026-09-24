@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { RippleGrid } from "./engine";
 import { PAPER } from "./params";
@@ -101,7 +102,7 @@ export function RippleGridCard({
       aria-label="A three by three grid of soft black blobs on a pale field. The grid swells open, its rows bend into concentric rings and then into a slow spiral that leans off centre, thinning to slivers at the edge, before folding back into the plain grid it started from."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: PAPER,
+        backgroundColor: themeColor("background", PAPER),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

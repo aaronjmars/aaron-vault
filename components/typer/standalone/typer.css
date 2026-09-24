@@ -1,8 +1,8 @@
 [data-typer] {
-  --typer-fg: #1b1b1b;
-  --typer-bg: #fcfcfc;
-  --typer-accent: #12a150;
-  --typer-accent-ink: #fcfcfc;
+  --typer-fg: var(--animation-foreground, #1b1b1b);
+  --typer-bg: var(--animation-background, #fcfcfc);
+  --typer-accent: var(--animation-accent, #12a150);
+  --typer-accent-ink: var(--animation-foreground, #fcfcfc);
   --typer-radius: 5px;
 }
 

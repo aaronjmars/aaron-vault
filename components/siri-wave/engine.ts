@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeRgb } from "../../lib/animation-theme";
 import { VERT, FRAG } from "./shaders";
 import { SignalSource } from "./audio";
 
@@ -63,7 +64,7 @@ export class SiriWave {
     this.prog = prog;
     gl.useProgram(prog);
 
-    for (const n of ["uRes", "uTime", "uLow", "uMid", "uHigh", "uLevel", "uPresence", "uWake", "uWakeLag", "uPaper", "uDark"]) {
+    for (const n of ["uRes", "uTime", "uLow", "uMid", "uHigh", "uLevel", "uPresence", "uWake", "uWakeLag", "uPaper", "uInk", "uThemed", "uDark"]) {
       this.u[n] = gl.getUniformLocation(prog, n);
     }
 
@@ -114,7 +115,9 @@ export class SiriWave {
     const gl = this.gl;
     if (!gl) return;
     const paper = cssColor(this.host, "--bg-surface", [1, 1, 1]);
-    gl.uniform3fv(this.u.uPaper!, paper);
+    gl.uniform3fv(this.u.uPaper!, themeRgb("background", paper, 1));
+    gl.uniform3fv(this.u.uInk!, themeRgb("foreground", [1, 0, 0], 1));
+    gl.uniform1f(this.u.uThemed!, getAnimationTheme().foreground ? 1 : 0);
 
     gl.uniform1f(this.u.uDark!, 0);
   }

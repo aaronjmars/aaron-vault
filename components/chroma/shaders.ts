@@ -49,6 +49,7 @@ uniform vec3  uCool;
 uniform vec3  uRed;
 uniform float uCore;
 uniform vec3  uBg;
+uniform float uThemed;
 uniform float uInvert;
 uniform float uNoise;
 uniform float uTime;
@@ -203,6 +204,22 @@ void main() {
   vec3 outL = pressed;
 
   vec3 outc = mix(outD, outL, uInvert);
+  if (uThemed > 0.5) {
+    // Rebuild the chrome material from the chosen paint colors. Keep the
+    // displaced bloom as a colored fringe and shade the actual letter mask.
+    float splitGlow = max(max(bw, bc), br) * uBloom;
+    float fringe = (abs(bw - bc) + abs(bc - br)) * uBloom;
+    float halo = clamp(splitGlow * 0.7 + fringe * 0.35, 0.0, 0.86);
+    vec3 paper = uBg * (0.97 + tex * 0.05);
+    vec3 litPaper = mix(paper, uCool, halo);
+
+    float sheen = 0.5 + 0.5 * sin(uv.y * 24.0 + uv.x * 4.0 + uTime * 0.55);
+    float metal = 0.66 + 0.34 * smoothstep(0.2, 0.85, sheen);
+    vec3 letter = uWarm * metal;
+    float rim = smoothstep(0.2, 0.55, core) * (1.0 - smoothstep(0.7, 0.96, core));
+    letter = mix(letter, uRed, rim * 0.38);
+    outc = mix(litPaper, letter, smoothstep(0.04, 0.9, core));
+  }
   gl_FragColor = vec4(outc, 1.0);
 }
 `;

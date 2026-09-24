@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { onTransitionChange } from "../../lib/view-transition";
 import { Arcade } from "./engine";
@@ -113,7 +114,7 @@ export function ArcadePlayground() {
     };
   }, []);
 
-  return <div ref={hostRef} style={PREVIEW_STYLE} />;
+  return <div ref={hostRef} style={{ ...PREVIEW_STYLE, background: themeColor("background", "#111111") }} />;
 }
 
 export default ArcadePlayground;

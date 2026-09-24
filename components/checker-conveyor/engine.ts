@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ROWS,
   REF_COLS,
@@ -193,11 +194,11 @@ export class CheckerConveyor {
     const sc = pal.scenes[scene];
     const pair = inRect ? sc.rect : sc.ground;
     const to = even ? pair[0] : pair[1];
-    if (!this.fadeFrom) return to;
+    if (!this.fadeFrom) return themeColor(inRect ? "accent" : "background", to);
 
     const fsc = this.fadeFrom.scenes[scene];
     const fpair = inRect ? fsc.rect : fsc.ground;
-    return mix(even ? fpair[0] : fpair[1], to, this.fadeQ);
+    return themeColor(inRect ? "accent" : "background", mix(even ? fpair[0] : fpair[1], to, this.fadeQ));
   }
 
   private rowState(r: number, t: number, pal: Palette): { scene: number; k: number } {

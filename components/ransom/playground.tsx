@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SlammingLine } from "./RansomLine";
 import { useMagnetism } from "./use-magnetism";
@@ -42,7 +44,7 @@ export function RansomNotePlayground() {
   return (
     <div className="flex min-w-0 flex-col gap-4">
       {/* the note */}
-      <div className={`${PG_PREVIEW} aspect-[1344/620] w-full bg-[var(--bg-page)]`}>
+      <div className={`${PG_PREVIEW} aspect-[1344/620] w-full bg-[var(--bg-page)]`} style={{ backgroundColor: themeColor("background", "#101014") }}>
         <div
           ref={stageRef}
           className="absolute inset-0 flex flex-col items-center justify-center gap-[3%] overflow-hidden px-[5%]"

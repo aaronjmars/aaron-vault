@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { BG } from "./params";
 import { useEffect, useRef } from "react";
 import { DashCascade } from "./engine";
@@ -87,7 +88,7 @@ export function DashCascadeCard({
       aria-label="Three-letter words built from fat scanline dashes in shifting yellows on white - LOL, VLT, ART, TOY - each unfurling out of a dotted vertical line letter by letter, the first letter wiping top to bottom, the last bottom to top, the middle pinched between them. The word rests at full width, folds back into the line, and the next one unfurls in its place."
 
       style={{
-        backgroundColor: BG,
+        backgroundColor: themeColor("background", BG),
         ...(viewTransitionName ? { viewTransitionName } : null),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"

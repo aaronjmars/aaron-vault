@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeColor } from "../../lib/animation-theme";
 import {
   ARRIVAL_STEP,
   ARRIVE_SCALE_FIRST,
@@ -256,10 +257,12 @@ export class LoudBurst {
     this.arrivals = this.words.map((_, k) => k * ARRIVAL_STEP);
 
     const th = this.sentence.theme;
-    const inkRgbs = th.inks.map(hexRgb);
+    const inkRgbs = th.inks.map((ink) => hexRgb(themeColor("accent", ink)));
     const inkHues = inkRgbs.map(hueOf);
-    this.burstRgb = hexRgb(th.burst);
-    this.bodyRgb = mixArr(INK_RGB, hexRgb(th.body), BODY_TINT);
+    this.burstRgb = hexRgb(themeColor("foreground", th.burst));
+    this.bodyRgb = getAnimationTheme().foreground
+      ? hexRgb(getAnimationTheme().foreground!)
+      : mixArr(INK_RGB, hexRgb(th.body), BODY_TINT);
     this.bodyCss = rgbStr(this.bodyRgb);
     const nearest = (h: number, excl = -1): number => {
       let best = excl === 0 ? 1 : 0;
@@ -300,7 +303,7 @@ export class LoudBurst {
       ang: rnd() * Math.PI * 2,
       spd: FLECK_SPD_MIN + rnd() * (FLECK_SPD_MAX - FLECK_SPD_MIN),
       r: FLECK_R_MIN + rnd() * (FLECK_R_MAX - FLECK_R_MIN),
-      color: th.inks[Math.floor(rnd() * th.inks.length)],
+      color: themeColor("accent", th.inks[Math.floor(rnd() * th.inks.length)]),
       delay: rnd() * FLECK_DELAY_MAX,
     }));
     this.kick = KICK_BASE.map(([kx, ky]) => [
@@ -739,7 +742,7 @@ export class LoudBurst {
     const W = this.canvas.width;
     const H = this.canvas.height;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = PAPER;
+    ctx.fillStyle = themeColor("background", PAPER);
     ctx.fillRect(0, 0, W, H);
 
     if (t === BURST_TICK || t === BURST_TICK + 1) {

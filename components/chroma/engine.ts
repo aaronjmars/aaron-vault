@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeRgb } from "../../lib/animation-theme";
 import { FULL_VERT, BLUR_FRAG, COMPOSITE_FRAG } from "./shaders";
 import { makeWordMask } from "./text-mask";
 
@@ -140,7 +141,7 @@ export class ChromaGlow {
     }
     for (const u of [
       "uMask", "uB0", "uB1", "uB2", "uB3", "uSplit", "uBloom", "uWarm", "uCool",
-      "uRed", "uCore", "uBg", "uInvert", "uNoise", "uTime", "uAspect", "uResolution",
+      "uRed", "uCore", "uBg", "uThemed", "uInvert", "uNoise", "uTime", "uAspect", "uResolution",
       "uSpectral", "uCursor", "uCursorOn", "uDisperse",
     ]) {
       this.compLoc[u] = gl.getUniformLocation(this.compProg, u);
@@ -550,12 +551,13 @@ export class ChromaGlow {
 
     const bloomPulse = p.bloom * (0.94 + 0.06 * Math.sin(t * 0.7));
     gl.uniform1f(this.compLoc.uBloom, bloomPulse);
-    gl.uniform3f(this.compLoc.uWarm, p.warm[0], p.warm[1], p.warm[2]);
-    gl.uniform3f(this.compLoc.uCool, p.cool[0], p.cool[1], p.cool[2]);
-    gl.uniform3f(this.compLoc.uRed, p.red[0], p.red[1], p.red[2]);
+    gl.uniform3fv(this.compLoc.uWarm, themeRgb("foreground", p.warm, 1));
+    gl.uniform3fv(this.compLoc.uCool, themeRgb("accent", p.cool, 1));
+    gl.uniform3fv(this.compLoc.uRed, themeRgb("foreground", p.red, 1));
     gl.uniform1f(this.compLoc.uCore, p.core);
     gl.uniform1f(this.compLoc.uSpectral, p.spectral);
-    gl.uniform3f(this.compLoc.uBg, p.bg[0], p.bg[1], p.bg[2]);
+    gl.uniform3fv(this.compLoc.uBg, themeRgb("background", p.bg, 1));
+    gl.uniform1f(this.compLoc.uThemed, getAnimationTheme().foreground ? 1 : 0);
     gl.uniform1f(this.compLoc.uInvert, p.invert ? 1 : 0);
     gl.uniform1f(this.compLoc.uNoise, p.noise);
     gl.uniform1f(this.compLoc.uTime, t);

@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   BAR_PAD_BOTTOM,
   BAR_PAD_TOP,
@@ -246,7 +247,7 @@ export class StampType {
         const b = this.place(line, s);
         if (!a || !b) continue;
         if (Math.abs(a[0] - b[0]) < 1.5 && Math.abs(a[1] - b[1]) < 1.5) continue;
-        this.silhouette(ctx, line, a[0], a[1], world.bar);
+        this.silhouette(ctx, line, a[0], a[1], themeColor("accent", world.bar));
       }
     }
   }
@@ -258,8 +259,8 @@ export class StampType {
       const p = this.place(line, f);
       if (p) placed.push([line, p]);
     }
-    for (const [line, p] of placed) this.silhouette(ctx, line, p[0], p[1], world.bar);
-    ctx.fillStyle = world.ink;
+    for (const [line, p] of placed) this.silhouette(ctx, line, p[0], p[1], themeColor("accent", world.bar));
+    ctx.fillStyle = themeColor("foreground", world.ink);
     for (const [line, p] of placed) {
       const m = this.lineMetrics(ctx, line);
       this.text(ctx, line.text, HEADLINE, p[0] + m.dx, p[1] + m.asc, m, false);
@@ -283,7 +284,7 @@ export class StampType {
 
     const fieldWorld = f < FIELD_SWAP && overlapping ? prev : wi;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = this.worlds[fieldWorld].bg;
+    ctx.fillStyle = themeColor("background", this.worlds[fieldWorld].bg);
     ctx.fillRect(0, 0, W, H);
 
     ctx.setTransform(this.dpr * k, 0, 0, this.dpr * k, this.dpr * ox, 0);

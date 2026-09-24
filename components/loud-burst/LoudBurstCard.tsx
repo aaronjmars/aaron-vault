@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { LoudBurst } from "./engine";
 import { FONT_CSS, FONT_WEIGHT } from "./params";
@@ -114,7 +116,7 @@ export function LoudBurstCard({
       data-canvas-card
       role="img"
       aria-label="A sentence types itself onto white paper one word at a time, each word landing slightly blurred and snapping into focus. The word loud takes on vivid colour, trembles, and dissolves into colourful drawn strokes that scatter in every direction while the rest of the sentence rushes off the sides. A few last strokes sweep the paper clean, and a different sentence begins the loop in a different palette."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#fdfdfd") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#fdfdfd]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

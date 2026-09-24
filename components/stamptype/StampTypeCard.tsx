@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { StampType } from "./engine";
 import { WORLDS } from "./params";
@@ -100,7 +101,7 @@ export function StampTypeCard({
       role="img"
       aria-label="A looping kinetic-type poster. Four lines of type on flat highlight bars fly in from the edges in square hops, hold still to be read, then scatter off. Every moving line leaves chunky blocks of flat colour where it just was. Each pass repeats the same choreography in a new palette with new words, and the two passes overlap so their trails flood the screen as the colour changes."
 
-      style={{ backgroundColor: WORLDS[0].bg, ...(viewTransitionName ? { viewTransitionName } : null) }}
+      style={{ backgroundColor: themeColor("background", WORLDS[0].bg), ...(viewTransitionName ? { viewTransitionName } : null) }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

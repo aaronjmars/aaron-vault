@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { WordCarousel } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -80,7 +82,7 @@ export function WordCarouselCard({
       data-canvas-card
       role="img"
       aria-label="Four dark navy words on white - Type, Grid, Color, Motion - arranged as a small word, a large word, and another small word on one line. Every half second the row slams one position to the left with a horizontal motion blur, cycling which word is large."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#ffffff") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-white"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

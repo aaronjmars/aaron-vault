@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   PAPER,
   INK,
@@ -395,8 +396,8 @@ export class GlassType {
     gl.uniform1f(this.u.uRipPh, t * RIP_DRIFT);
     gl.uniform1f(this.u.uBall, ball);
     gl.uniform1f(this.u.uRingT, Math.floor(t * RING_BOIL_FPS) / RING_BOIL_FPS);
-    gl.uniform3fv(this.u.uInk, hex(INK));
-    gl.uniform3fv(this.u.uPaper, hex(PAPER));
+    gl.uniform3fv(this.u.uInk, hex(themeColor("foreground", INK)));
+    gl.uniform3fv(this.u.uPaper, hex(themeColor("background", PAPER)));
 
     gl.drawArrays(gl.TRIANGLES, 0, 3);
   }

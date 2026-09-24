@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import { easeFn, sampleTable } from "./ease";
 import {
   HALFTONE_DEFAULTS,
@@ -143,11 +144,11 @@ export class InkFlood {
     const bg = second ? fieldB : fieldA;
     const ink = second ? fieldA : fieldB;
 
-    ctx.fillStyle = bg;
+    ctx.fillStyle = themeColor("background", bg);
     ctx.fillRect(0, 0, W, H);
 
     if (u >= s.flood.end) {
-      ctx.fillStyle = ink;
+      ctx.fillStyle = themeColor("foreground", ink);
       ctx.fillRect(0, 0, W, H);
       this.screen(ctx, W, H);
       return;
@@ -163,14 +164,14 @@ export class InkFlood {
     ctx.translate(s.ref / 2, s.ref / 2);
     ctx.scale(zoom, zoom);
     ctx.translate(-s.ref / 2, -s.ref / 2);
-    ctx.fillStyle = ink;
+    ctx.fillStyle = themeColor("foreground", ink);
     this.stampInk(ctx, u, k);
     ctx.restore();
 
     ctx.save();
     this.toScene(ctx, W, H, second);
-    ctx.fillStyle = s.palette.dot;
-    ctx.strokeStyle = s.palette.dot;
+    ctx.fillStyle = themeColor("accent", s.palette.dot);
+    ctx.strokeStyle = themeColor("accent", s.palette.dot);
 
     const sp = s.sparks;
     if (sp && u >= sp.popAt) {

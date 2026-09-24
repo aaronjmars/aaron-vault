@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { BlurGlow } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -76,6 +77,7 @@ export default function BlurGlowCard() {
       data-canvas-card
       aria-label="A crisp word in a soft gradient-mapped glow that breathes, drifts through colour worlds, and bends around the cursor."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
+      style={{ backgroundColor: themeColor("background", "#ffffff") }}
     />
   );
 }

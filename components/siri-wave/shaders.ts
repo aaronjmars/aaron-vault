@@ -18,6 +18,8 @@ uniform float uWake;
 uniform float uWakeLag;
 
 uniform vec3  uPaper;
+uniform vec3  uInk;
+uniform float uThemed;
 uniform float uDark;
 
 out vec4 outColor;
@@ -145,6 +147,11 @@ void main(){
 
     outc = uPaper * (1.0 - dens * (1.0 - hue * 0.55));
     outc = clamp(outc, 0.0, 1.0);
+  }
+
+  if (uThemed > 0.5) {
+    float wave = clamp(length(col) * 2.5, 0.0, 1.0);
+    outc = mix(uPaper, uInk, wave);
   }
 
   float g = hash21(gl_FragCoord.xy * 0.75 + fract(uTime) * 91.7);

@@ -1,3 +1,4 @@
+import { themeRgb } from "../../lib/animation-theme";
 import {
   CAP,
   DITHER,
@@ -82,6 +83,7 @@ uniform uint uFrame;
 uniform vec2 uScene;
 uniform vec2 uDevice;
 uniform vec3 uGround;
+uniform vec3 uInk;
 uniform float uReach;
 out vec4 o;
 uint lowbias32(uint x) {
@@ -120,7 +122,7 @@ void main() {
   vec2 sp = vec2(uv.x, 1.0 - uv.y) * uScene;
   float r = rnd(uvec3(uint(floor(sp.x)), uint(floor(sp.y)), uFrame));
   float on = r < p ? 1.0 : 0.0;
-  o = vec4(mix(uGround, vec3(1.0), on), 1.0);
+  o = vec4(mix(uGround, uInk, on), 1.0);
 }`;
 
 interface Cell {
@@ -208,7 +210,7 @@ export class CloudType {
     gl.bindBuffer(gl.ARRAY_BUFFER, this.quad);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
     for (const n of ["uCentre", "uHalf", "uScene", "uScale", "uAtlas", "uCellA", "uExtA", "uCellB", "uExtB", "uMix", "uTexel", "uAmp"]) this.uField[n] = gl.getUniformLocation(this.progField, n);
-    for (const n of ["uField", "uThr", "uSigma", "uBias", "uFrame", "uScene", "uDevice", "uGround", "uReach"]) this.uFinal[n] = gl.getUniformLocation(this.progFinal, n);
+    for (const n of ["uField", "uThr", "uSigma", "uBias", "uFrame", "uScene", "uDevice", "uGround", "uInk", "uReach"]) this.uFinal[n] = gl.getUniformLocation(this.progFinal, n);
 
     this.field = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, this.field);
@@ -485,7 +487,10 @@ export class CloudType {
     gl.uniform1ui(this.uFinal.uFrame, Math.floor(frame) >>> 0);
     gl.uniform2f(this.uFinal.uScene, SCENE_W, SCENE_H);
     gl.uniform2f(this.uFinal.uDevice, this.canvas.width, this.canvas.height);
-    gl.uniform3f(this.uFinal.uGround, GROUND_RGB[0], GROUND_RGB[1], GROUND_RGB[2]);
+    const ground = themeRgb("background", GROUND_RGB, 1);
+    const ink = themeRgb("foreground", [1, 1, 1], 1);
+    gl.uniform3f(this.uFinal.uGround, ground[0], ground[1], ground[2]);
+    gl.uniform3f(this.uFinal.uInk, ink[0], ink[1], ink[2]);
     gl.uniform1f(this.uFinal.uReach, DITHER.reach);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }

@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   COLS,
   DISC_R,
@@ -88,7 +89,7 @@ export class EclipseGrid {
     if (!ctx) return;
     const k = this.canvas.width / SCENE_W;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = GROUND;
+    ctx.fillStyle = themeColor("background", GROUND);
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.setTransform(k, 0, 0, k, 0, 0);
     ctx.lineWidth = RING_STROKE;
@@ -96,16 +97,16 @@ export class EclipseGrid {
       for (let col = 0; col < COLS; col++) {
         const p = cellPoseLit(col, row, frame, this.light.a > 0 ? this.light : null);
 
-        ctx.fillStyle = INK;
+        ctx.fillStyle = themeColor("foreground", INK);
         ctx.beginPath();
         ctx.arc(p.disc.x, p.disc.y, DISC_R, 0, Math.PI * 2);
         ctx.fill();
 
-        ctx.fillStyle = GROUND;
+        ctx.fillStyle = themeColor("background", GROUND);
         ctx.beginPath();
         ctx.arc(p.ring.x, p.ring.y, RING_R + RING_STROKE / 2, 0, Math.PI * 2);
         ctx.fill();
-        ctx.strokeStyle = INK;
+        ctx.strokeStyle = themeColor("foreground", INK);
         ctx.beginPath();
         ctx.arc(p.ring.x, p.ring.y, RING_R, 0, Math.PI * 2);
         ctx.stroke();

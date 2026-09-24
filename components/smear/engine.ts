@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeRgb } from "../../lib/animation-theme";
 import { FULL_VERT, TRAIL_FRAG } from "./shaders";
 import { makeWordMask, measureWord, ANCHOR_Y } from "./text-mask";
 
@@ -305,7 +306,7 @@ const UNIFORMS = [
   "uAnchor", "uYaw", "uPitch", "uFocal",
   "uTrailHead", "uTrailTail", "uBleed", "uHalo", "uCore", "uBg",
   "uPoolA", "uPoolB", "uPoolAlphaA", "uPoolAlphaB",
-  "uVignette", "uSubtract", "uSoft", "uNoise", "uTime",
+  "uVignette", "uThemed", "uSubtract", "uSoft", "uNoise", "uTime",
   "uHaloShift", "uWordShift",
 ] as const;
 
@@ -694,19 +695,20 @@ export class FadeMotion {
     const reach = 1.15 - this.near * 0.6;
     gl.uniform1f(this.loc.uEchoes, Math.max(1, P.echoes * reach));
 
-    gl.uniform3fv(this.loc.uTrailHead, pal.head);
-    gl.uniform3fv(this.loc.uTrailTail, pal.tail);
+    gl.uniform3fv(this.loc.uTrailHead, themeRgb("foreground", pal.head, 1));
+    gl.uniform3fv(this.loc.uTrailTail, themeRgb("foreground", pal.tail, 1));
 
-    gl.uniform3fv(this.loc.uBleed, pal.bleed);
-    gl.uniform3fv(this.loc.uHalo, pal.halo);
-    gl.uniform3fv(this.loc.uCore, pal.core);
-    gl.uniform3fv(this.loc.uBg, pal.bg);
+    gl.uniform3fv(this.loc.uBleed, themeRgb("accent", pal.bleed, 1));
+    gl.uniform3fv(this.loc.uHalo, themeRgb("accent", pal.halo, 1));
+    gl.uniform3fv(this.loc.uCore, themeRgb("foreground", pal.core, 1));
+    gl.uniform3fv(this.loc.uBg, themeRgb("background", pal.bg, 1));
 
-    gl.uniform3fv(this.loc.uPoolA, pal.poolA);
-    gl.uniform3fv(this.loc.uPoolB, pal.poolB);
+    gl.uniform3fv(this.loc.uPoolA, themeRgb("background", pal.poolA, 1));
+    gl.uniform3fv(this.loc.uPoolB, themeRgb("background", pal.poolB, 1));
     gl.uniform1f(this.loc.uPoolAlphaA, pal.poolAlphaA);
     gl.uniform1f(this.loc.uPoolAlphaB, pal.poolAlphaB);
-    gl.uniform3fv(this.loc.uVignette, pal.vignette);
+    gl.uniform3fv(this.loc.uVignette, themeRgb("background", pal.vignette, 1));
+    gl.uniform1f(this.loc.uThemed, getAnimationTheme().foreground ? 1 : 0);
 
     if (
       pal.bg[0] !== this.lastBg[0] ||
@@ -717,7 +719,7 @@ export class FadeMotion {
       this.onBg?.(this.bgCss);
     }
 
-    gl.uniform1f(this.loc.uSubtract, pal.subtract);
+    gl.uniform1f(this.loc.uSubtract, getAnimationTheme().foreground ? 0 : pal.subtract);
 
     gl.uniform1f(this.loc.uSoft, lerp(1, 0.35, pal.subtract));
     gl.uniform1f(this.loc.uNoise, lerp(0.02, 0.012, pal.subtract));

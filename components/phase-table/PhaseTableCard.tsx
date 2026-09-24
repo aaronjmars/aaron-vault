@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { PhaseTable } from "./engine";
 import { METALS } from "./params";
@@ -98,7 +99,7 @@ export function PhaseTableCard({
       aria-label="A grid of glowing metal wires on a near-black field, four rows by six columns, each cell one continuous looping curve. The top-left cell is a circle and more circles run down the diagonal; away from that diagonal the curves gain lobes, becoming arches, figure-eights, waves and dense woven lattices. Each wire catches a bright reflection along one side and falls to shadow on the other, and all twenty-four breathe together on one shared sweep, flattening toward straight diagonal lines and opening back out. Moving the pointer across the card sweeps the reflection over every curve at once."
 
       style={{
-        backgroundColor: METALS[0].bg,
+        backgroundColor: themeColor("background", METALS[0].bg),
         ...(viewTransitionName ? { viewTransitionName } : null),
       }}
       className="relative mx-auto aspect-[1344/896] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"

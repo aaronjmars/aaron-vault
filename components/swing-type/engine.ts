@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   BG,
   CAP_FRAC,
@@ -154,7 +155,7 @@ export class SwingType {
           g.font = `${weight} ${size}px ${this.family}`;
           g.textBaseline = "alphabetic";
 
-          g.fillStyle = INK[i % INK.length];
+          g.fillStyle = themeColor("foreground", INK[i % INK.length]);
           g.fillText(ch, bleed + left, bleed + asc);
         }
         return c;
@@ -191,7 +192,7 @@ export class SwingType {
     if (!ctx) return;
     const { dpr, w, h } = this;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = BG;
+    ctx.fillStyle = themeColor("background", BG);
     ctx.fillRect(0, 0, w * dpr, h * dpr);
 
     const cx = w / 2;

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { SiriWave } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -75,6 +76,7 @@ export function SiriWaveCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="A ribbon of light rippling like a voice assistant listening, four spectral copies of one wave that split into a rainbow where the curve bends. Driven by a simulated voice."
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-surface)]"
+      style={{ backgroundColor: themeColor("background", "#fafafa") }}
     />
   );
 }

@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   OUTRO,
   OUTRO_HOLD,
@@ -289,9 +290,9 @@ export class SunsetSlam {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, BG_TOP);
-    sky.addColorStop(BG_HORIZON, BG_BOTTOM);
-    sky.addColorStop(1, BG_TOP);
+    sky.addColorStop(0, themeColor("background", BG_TOP));
+    sky.addColorStop(BG_HORIZON, themeColor("background", BG_BOTTOM));
+    sky.addColorStop(1, themeColor("background", BG_TOP));
     ctx.fillStyle = sky;
     ctx.fillRect(0, 0, W, H);
 
@@ -360,7 +361,7 @@ export class SunsetSlam {
           const t = Math.min(1, (df - TIP_BAND_FROM) / (TIP_BAND_FULL - TIP_BAND_FROM));
           p += (tipp - p) * t;
         }
-        const col = this.ramp(p);
+        const col = themeColor("accent", this.ramp(p));
         ctx.fillStyle = col;
         ctx.strokeStyle = col;
         ctx.fill(this.word);
@@ -372,9 +373,9 @@ export class SunsetSlam {
     copy(0);
 
     const faceG = ctx.createLinearGradient(0, 0, 0, WORD_H);
-    faceG.addColorStop(0, FACE_MID);
-    faceG.addColorStop(FACE_HILITE_AT, FACE_TOP);
-    faceG.addColorStop(1, FACE_BOTTOM);
+    faceG.addColorStop(0, themeColor("foreground", FACE_MID));
+    faceG.addColorStop(FACE_HILITE_AT, themeColor("foreground", FACE_TOP));
+    faceG.addColorStop(1, themeColor("foreground", FACE_BOTTOM));
     ctx.fillStyle = faceG;
     ctx.fill(this.word);
     if (ignited) {

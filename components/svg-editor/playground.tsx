@@ -1,5 +1,7 @@
 "use client";
 
+import { getAnimationTheme, themeColor } from "../../lib/animation-theme";
+
 import { useMemo, useState } from "react";
 import { FigmaFrame, DEFAULT_FRAME } from "./standalone/FigmaFrame";
 import { VectorEditor, DEFAULT_EDITOR, type EditorStyle } from "./standalone/VectorEditor";
@@ -18,20 +20,34 @@ export default function SvgEditorPlayground() {
   const heartB = useMemo(() => bounds(heart), [heart]);
   const boltB = useMemo(() => bounds(bolt), [bolt]);
 
-  const editorStyle: EditorStyle = { ...DEFAULT_EDITOR, showRig: false };
-  const frame = { ...DEFAULT_FRAME, accent: "#0d99ff" };
+  const editorStyle: EditorStyle = {
+    ...DEFAULT_EDITOR,
+    accent: themeColor("accent", DEFAULT_EDITOR.accent),
+    arm: themeColor("accent", DEFAULT_EDITOR.arm),
+    pointFill: themeColor("background", DEFAULT_EDITOR.pointFill),
+    showRig: false,
+  };
+  const frame = {
+    ...DEFAULT_FRAME,
+    accent: themeColor("accent", "#0d99ff"),
+    handleFill: themeColor("background", DEFAULT_FRAME.handleFill),
+    badgeBg: themeColor("accent", DEFAULT_FRAME.badgeBg),
+    badgeText: themeColor("foreground", DEFAULT_FRAME.badgeText),
+  };
 
   return (
     <div
       data-canvas-card
       aria-label="A Figma-style vector editor: blue selection boxes with corner handles and size tags around two shapes, with draggable bezier points and handles to bend them."
       className="relative mx-auto flex aspect-[1344/620] w-full select-none flex-col items-center justify-center gap-8 overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-white"
+      style={{ backgroundColor: themeColor("background", "#ffffff") }}
     >
       <div
         className="pointer-events-none absolute inset-0 opacity-60"
         style={{
-          backgroundImage:
-            "linear-gradient(#eef4fb 1px, transparent 1px), linear-gradient(90deg, #eef4fb 1px, transparent 1px)",
+          backgroundImage: getAnimationTheme().background
+            ? "none"
+            : "linear-gradient(#eef4fb 1px, transparent 1px), linear-gradient(90deg, #eef4fb 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
       />
@@ -42,7 +58,7 @@ export default function SvgEditorPlayground() {
             <VectorEditor
               path={heart}
               onChange={setHeart}
-              style={{ ...editorStyle, fill: "#ff5c8a", stroke: "#ff5c8a" }}
+              style={{ ...editorStyle, fill: themeColor("foreground", "#ff5c8a"), fillOpacity: getAnimationTheme().foreground ? 1 : editorStyle.fillOpacity, stroke: themeColor("accent", "#ff5c8a") }}
               viewBox={[0, 0, 200, 130]}
               width={260}
               height={169}
@@ -53,7 +69,7 @@ export default function SvgEditorPlayground() {
             <VectorEditor
               path={bolt}
               onChange={setBolt}
-              style={{ ...editorStyle, fill: "#ffb02e", stroke: "#ffb02e", showRig: true, anchorR: 3.4, handleR: 2.8 }}
+              style={{ ...editorStyle, fill: themeColor("foreground", "#ffb02e"), fillOpacity: getAnimationTheme().foreground ? 1 : editorStyle.fillOpacity, stroke: themeColor("accent", "#ffb02e"), showRig: true, anchorR: 3.4, handleR: 2.8 }}
               viewBox={[0, 0, 120, 130]}
               width={190}
               height={206}
@@ -61,7 +77,7 @@ export default function SvgEditorPlayground() {
           </FigmaFrame>
         </div>
 
-        <div className="relative flex items-center gap-6 font-mono text-[11px] text-[#5b6b7f]">
+        <div className="relative flex items-center gap-6 font-mono text-[11px] text-[#5b6b7f]" style={{ color: themeColor("foreground", "#5b6b7f") }}>
           <span className="rounded-[6px] bg-[#f1f4f8] px-3 py-1">
             d = {serializePath(heart).slice(0, 46)}…
           </span>

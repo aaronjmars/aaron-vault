@@ -1,3 +1,4 @@
+import { themeRgb } from "../../lib/animation-theme";
 import {
   BAND,
   BAR_BEATS,
@@ -662,9 +663,9 @@ export class SprayBurst {
     );
     gl.uniform1f(this.u.uUnit!, this.unit);
     gl.uniform1i(this.u.uScene!, scene);
-    gl.uniform3f(this.u.uPaper!, pal.paper[0] / 255, pal.paper[1] / 255, pal.paper[2] / 255);
-    gl.uniform3f(this.u.uPlate!, pal.plate[0] / 255, pal.plate[1] / 255, pal.plate[2] / 255);
-    gl.uniform3f(this.u.uInk!, pal.ink[0] / 255, pal.ink[1] / 255, pal.ink[2] / 255);
+    gl.uniform3fv(this.u.uPaper!, themeRgb("background", pal.paper, 1));
+    gl.uniform3fv(this.u.uPlate!, themeRgb("accent", pal.plate, 1));
+    gl.uniform3fv(this.u.uInk!, themeRgb("foreground", pal.ink, 1));
 
     gl.uniform1f(this.u.uSprayI!, SPRAY_INK * this.unit * SPRAY_SCALE[scene]);
     gl.uniform3f(this.u.uCursor!, this.px, this.py, this.cursor);

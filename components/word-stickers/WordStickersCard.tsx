@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { WordStickers } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -65,7 +66,7 @@ export default function WordStickersCard() {
       data-canvas-card
       aria-label="Die-cut vinyl word stickers scattered on a page. Grab one with the cursor and fling it; it bounces off the edges and settles."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: "#f4f2ec" }}
+      style={{ background: themeColor("background", "#f4f2ec") }}
     />
   );
 }

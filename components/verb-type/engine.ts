@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   BREAK_CAP,
   BREAK_LETTERS,
@@ -243,7 +244,7 @@ export class VerbType {
     const H = this.canvas.height;
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = phase.ground;
+    ctx.fillStyle = themeColor("background", phase.ground);
     ctx.fillRect(0, 0, W, H);
 
     lctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -283,7 +284,7 @@ export class VerbType {
     const k = this.canvas.width / SCENE_W;
     ctx.setTransform(k, 0, 0, k, dx * k, 0);
     ctx.globalAlpha = alpha;
-    ctx.fillStyle = ink;
+    ctx.fillStyle = themeColor("foreground", ink);
     ctx.textBaseline = "alphabetic";
     ctx.textAlign = "left";
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { InkFlood } from "./engine";
 import { DEFAULT_SCENE } from "./presets";
@@ -98,7 +99,7 @@ export function InkFloodCard({
       aria-label="A grey dot writes a thick black scribble across a white field, the scribble swells until its ink floods the whole card, and the drawing starts again in the opposite colours - each pass painting the background the next one is drawn on."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: scene.palette.fields[0],
+        backgroundColor: themeColor("background", scene.palette.fields[0]),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >
