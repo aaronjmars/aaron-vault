@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { WildType } from "./engine";
 import { BG, FONT_CSS, FONT_WEIGHT } from "./params";
@@ -126,7 +127,7 @@ export function WildTypeCard({
       role="img"
       aria-label="A single design word in heavy white oblique lowercase on black. It types itself in letter by letter, then inflates to fill the card as giant warped letterforms with a colored ink slipping out from under the white, swings over an arch, shrinks back to rest, and un-types itself letter by letter. Each loop brings the next word in its own color."
 
-      style={{ background: BG, ...(viewTransitionName ? { viewTransitionName } : null) }}
+      style={{ background: themeColor("background", BG), ...(viewTransitionName ? { viewTransitionName } : null) }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

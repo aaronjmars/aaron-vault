@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { FadeMotion, pixelFontSpec } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -41,7 +42,7 @@ export function SmearCard({
         if (!reduced) engine.enableHero(2);
 
         engine.onBg = (css) => {
-          host.style.backgroundColor = css;
+          host.style.backgroundColor = themeColor("background", css);
         };
 
         if (document.fonts?.load) {
@@ -111,7 +112,7 @@ export function SmearCard({
     <div
       ref={hostRef}
       data-canvas-card
-      style={{ viewTransitionName }}
+      style={{ viewTransitionName, backgroundColor: themeColor("background", "#f2f2f4") }}
       aria-label="A word trailing downward into light, its fade built from hundreds of overlapping copies"
       className="relative aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-hover)]"
     />

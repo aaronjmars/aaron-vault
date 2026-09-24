@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   CURSOR_EASE,
   CURSOR_PUSH,
@@ -287,8 +288,8 @@ export class RippleGrid {
     gl.uniform1f(this.u.uThreshold, THRESHOLD);
     gl.uniform1f(this.u.uShellSoft, SHELL_SOFT);
     gl.uniform1f(this.u.uRippleLen, RIPPLE_LEN);
-    gl.uniform3fv(this.u.uInk, rgb(INK));
-    gl.uniform3fv(this.u.uPaper, rgb(PAPER));
+    gl.uniform3fv(this.u.uInk, rgb(themeColor("foreground", INK)));
+    gl.uniform3fv(this.u.uPaper, rgb(themeColor("background", PAPER)));
     gl.uniform1f(this.u.uCursorPush, CURSOR_PUSH);
     gl.uniform1f(this.u.uCursorRadius, CURSOR_RADIUS);
     gl.uniform1f(this.u.uRippleBias, CURSOR_RIPPLE_BIAS);

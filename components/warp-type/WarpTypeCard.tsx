@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { WarpType } from "./engine";
 import { DEFAULT_PHRASES, FONT_VAR, FONT_WEIGHT, GROUND, INK, type Phrases } from "./params";
@@ -20,8 +21,8 @@ export function WarpTypeCard({
   bare = false,
   viewTransitionName,
   phrases = DEFAULT_PHRASES,
-  ground = GROUND,
-  ink = INK,
+  ground = themeColor("background", GROUND),
+  ink = themeColor("foreground", INK),
   weight = FONT_WEIGHT,
   className = "",
 }: WarpTypeCardProps = {}) {

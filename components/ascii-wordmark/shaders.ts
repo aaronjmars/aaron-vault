@@ -171,6 +171,7 @@ uniform float uAsciiMax;
 
 uniform float uAspect;
 uniform vec3  uInk;
+uniform float uThemed;
 uniform vec2  uTrail[${TRAIL_LEN}];
 uniform float uTrailAge[${TRAIL_LEN}];
 uniform float uTrailOn;
@@ -207,7 +208,7 @@ void main() {
 
   vec3 inkDeep = vec3(0.14, 0.16, 0.30);
   vec3 inkLift = vec3(0.20, 0.24, 0.42);
-  vec3 baseColor = mix(inkDeep, inkLift, smoothstep(0.0, 1.0, cellCenter.x));
+  vec3 baseColor = uThemed > 0.5 ? uInk : mix(inkDeep, inkLift, smoothstep(0.0, 1.0, cellCenter.x));
 
   float trail = 0.0;
   float headness = 0.0;
@@ -225,7 +226,7 @@ void main() {
   vec3 trailHot  = vec3(1.0, 0.32, 0.68);
   vec3 trailColor = mix(trailCool, trailHot, headness);
 
-  vec3 glyphColor = mix(baseColor, trailColor, clamp(trail, 0.0, 1.0));
+  vec3 glyphColor = uThemed > 0.5 ? uInk : mix(baseColor, trailColor, clamp(trail, 0.0, 1.0));
 
   float ink = character * smoothstep(0.015, 0.18, luma);
   ink = min(1.0, ink + trail * character * 0.3);

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { CheckerConveyor } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -80,7 +81,7 @@ export function CheckerConveyorCard({
       data-canvas-card
       role="img"
       aria-label="A checkerboard of nine rows. Row by row the whole board whips sideways and a new checkered scene slides in from the edge, seam and all: the ground and the rectangle at its centre change colour together. Every few seconds the palette changes to a different colour world, and some of them tear odd rows against even ones."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#63ecff") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#63ecff]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import { WORDS, INITIAL, randomSwatchAvoiding, type Swatch } from "./palette";
 import { measureWord, REF_FS, BASELINE_Y, type WordMetrics } from "./measure";
 
@@ -101,7 +102,7 @@ export class DesignTiles {
       textEl.setAttribute("font-weight", "500");
       textEl.setAttribute("font-size", String(REF_FS));
       textEl.setAttribute("dominant-baseline", "alphabetic");
-      textEl.style.fill = sw.fg;
+      textEl.style.fill = themeColor("foreground", sw.fg);
       textEl.style.transition = `fill ${COLOR_MS}ms ease`;
       textEl.textContent = word;
 
@@ -169,7 +170,7 @@ export class DesignTiles {
       rect.setAttribute("y", String(top));
       rect.setAttribute("width", String(width));
       rect.setAttribute("height", String(bottom - top));
-      rect.style.fill = tile.swatch.bg;
+      rect.style.fill = themeColor("accent", tile.swatch.bg);
       // y/height transition powers the hover grow
       rect.style.transition = `fill ${COLOR_MS}ms ease, y 160ms ease, height 160ms ease`;
       gBg.appendChild(rect);
@@ -204,7 +205,7 @@ export class DesignTiles {
     rect.setAttribute("y", "0");
     rect.setAttribute("width", "100");
     rect.setAttribute("height", "100");
-    rect.style.fill = tile.swatch.bg;
+    rect.style.fill = themeColor("accent", tile.swatch.bg);
     gBg.appendChild(rect);
     tile.rects.push({ el: rect, x0: 0, x1: 100, baseY: 0, baseH: 100, hovered: false });
     tile.svg.setAttribute("viewBox", "0 0 100 100");
@@ -266,8 +267,8 @@ export class DesignTiles {
     const used = this.tiles.filter((t) => t !== tile).map((t) => t.swatch);
     const sw = randomSwatchAvoiding(used);
     tile.swatch = sw;
-    for (const r of tile.rects) r.el.style.fill = sw.bg;
-    tile.textEl.style.fill = sw.fg;
+    for (const r of tile.rects) r.el.style.fill = themeColor("accent", sw.bg);
+    tile.textEl.style.fill = themeColor("foreground", sw.fg);
   }
 
   refreshFont() {

@@ -1,3 +1,4 @@
+import { themeRgb, themeRgbCss } from "../../lib/animation-theme";
 import { VERT, BLUR_FRAG, COMPOSITE_FRAG } from "./shaders";
 import { makeWordMask } from "./text-mask";
 import {
@@ -215,10 +216,14 @@ export class BlurGlow {
     if (!gl || !this.compProg) return;
     gl.useProgram(this.compProg);
     gl.uniform1fv(this.compU.uPos!, new Float32Array(u.positions));
-    gl.uniform3fv(this.compU.uCol!, new Float32Array(u.colors));
-    gl.uniform3fv(this.compU.uInk!, new Float32Array(u.ink));
-    gl.uniform3fv(this.compU.uPaper!, new Float32Array(u.paper));
-    this.canvas.style.background = `rgb(${u.paper.map((c) => Math.round(c * 255)).join(",")})`;
+    const roles = ["foreground", "foreground", "accent", "accent", "background"] as const;
+    const colors = u.colors.flatMap((_, i) => i % 3 === 0
+      ? themeRgb(roles[i / 3], u.colors.slice(i, i + 3), 1)
+      : []);
+    gl.uniform3fv(this.compU.uCol!, new Float32Array(colors));
+    gl.uniform3fv(this.compU.uInk!, new Float32Array(themeRgb("foreground", u.ink, 1)));
+    gl.uniform3fv(this.compU.uPaper!, new Float32Array(themeRgb("background", u.paper, 1)));
+    this.canvas.style.background = themeRgbCss("background", u.paper.map((c) => c * 255));
   }
 
   private applyPalette(i: number) {

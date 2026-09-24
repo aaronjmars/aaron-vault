@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { ChromaGlow, type ChromaParams } from "./engine";
 import { defaultChromaParams } from "./params";
@@ -65,7 +66,7 @@ export function ChromaGlowPlayground() {
   return (
     <div className="flex min-w-0 flex-col gap-4">
       {/* the glow */}
-      <div className={`${PG_PREVIEW} aspect-[1344/620] w-full bg-[#1c2133]`}>
+      <div className={`${PG_PREVIEW} aspect-[1344/620] w-full bg-[#1c2133]`} style={{ backgroundColor: themeColor("background", "#1c2133") }}>
         <div ref={hostRef} data-canvas-card className="absolute inset-0 h-full w-full" />
       </div>
     </div>

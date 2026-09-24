@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   PALETTES,
   SCENES,
@@ -251,14 +252,14 @@ export class DotCut {
     const circle = mixHex(cA, cB, m);
     const back = mixHex(bA, bB, m);
 
-    ctx.fillStyle = back;
+    ctx.fillStyle = themeColor("background", back);
     ctx.fillRect(0, 0, W, H);
 
     const pitch = this.pitch * s;
     const r = pitch / 2;
     const sq = Math.max(0, Math.min(1, this.params.squareness));
 
-    ctx.fillStyle = circle;
+    ctx.fillStyle = themeColor("foreground", circle);
 
     const solidPath = new Path2D();
 

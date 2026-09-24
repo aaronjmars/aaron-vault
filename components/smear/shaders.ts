@@ -47,6 +47,7 @@ uniform vec3  uPoolB;
 uniform float uPoolAlphaA;
 uniform float uPoolAlphaB;
 uniform vec3  uVignette;
+uniform float uThemed;
 uniform float uSubtract;
 uniform float uSoft;
 uniform float uNoise;
@@ -169,11 +170,15 @@ void main() {
   sub *= mix(vec3(1.0), uCore,  core  * 0.95);
 
   vec3 col = mix(add, sub, uSubtract);
+  if (uThemed > 0.5) {
+    float ink = clamp(max(dens, core) * 1.2 + edge * dens * 0.3, 0.0, 1.0);
+    col = mix(uBg, uCore, ink);
+  }
 
   vec2 vc = uv - vec2(0.5, 0.45);
   vc.x *= uAspect;
   float vd = clamp((length(vc) - 0.16) / 0.56, 0.0, 1.0);
-  col *= mix(vec3(1.0), uVignette, vd);
+  if (uThemed < 0.5) col *= mix(vec3(1.0), uVignette, vd);
 
   float n = hash(gl_FragCoord.xy + vec2(uTime * 60.0)) - 0.5;
   float grainAmt = uNoise * (0.35 + 1.5 * max(dens, core));

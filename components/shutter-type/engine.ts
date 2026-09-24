@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ADDUP_WORDS,
   ADDUP_XHEIGHT,
@@ -201,8 +202,8 @@ export class ShutterType {
     if (!ctx || !inner || this.taps.length < STRIPE_TAPS) return;
     const phase = phaseAt(f);
     const sky = isSky(f);
-    const ground = sky ? SKY : PAPER;
-    const ink = sky ? PAPER : SKY;
+    const ground = themeColor("background", sky ? SKY : PAPER);
+    const ink = themeColor("foreground", sky ? PAPER : SKY);
     const W = this.canvas.width;
     const H = this.canvas.height;
 

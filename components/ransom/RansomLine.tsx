@@ -1,5 +1,7 @@
 "use client";
 
+import { getAnimationTheme, themeColor } from "../../lib/animation-theme";
+
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { RANSOM_BASE, spriteUrl, variantsFor, type Placed, type Variant } from "./manifest";
 import { hapticTap } from "../../lib/haptics";
@@ -73,6 +75,7 @@ function Scrap({
   // re-picked variant survives re-composes when it was based on the same base variant
   const [override, setOverride] = useState<{ base: Variant; picked: Variant } | null>(null);
   const variant = override && override.base === p.variant ? override.picked : p.variant!;
+  const themed = Boolean(getAnimationTheme().foreground || getAnimationTheme().background || getAnimationTheme().accent);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   // SSR renders the raw path; the generated data URL only swaps in after mount
@@ -158,6 +161,30 @@ function Scrap({
     transition: `transform ${SWAP_MS}ms ${SLAM_EASE}, opacity ${SWAP_MS}ms ease`,
   });
 
+  const piece = (vr: Variant, leaving = false) => {
+    const style: CSSProperties = {
+      ...imgBase(vr),
+      transform: "translate(-50%,-50%)",
+      transition: leaving ? undefined : "none",
+      ...(leaving ? { animation: `ransom-swap-out ${SWAP_MS}ms ${SLAM_EASE} both` } : null),
+    };
+    if (themed) return (
+      <span style={{
+        ...style,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: themeColor("accent", "#ffffff"),
+        color: themeColor("foreground", "#111111"),
+        fontFamily: "Georgia, serif",
+        fontWeight: 900,
+        fontSize: `${h * 0.75}px`,
+        lineHeight: 1,
+      }}>{p.ch}</span>
+    );
+    return <img src={src(vr.file)} alt="" draggable={false} decoding="async" className="select-none" style={style} />;
+  };
+
   return (
     <span
       style={outerStyle}
@@ -174,32 +201,9 @@ function Scrap({
     >
       <span style={wrapStyle}>
         {/* current variant sits still during a swap (it is the incoming one) */}
-        <img
-          src={src(variant.file)}
-          draggable={false}
-          decoding="async"
-          className="select-none"
-          style={{
-            ...imgBase(variant),
-            transform: "translate(-50%,-50%)",
-            // width/transform already handled; kill the swap transition on the steady copy
-            transition: "none",
-          }}
-        />
+        {piece(variant)}
         {/* outgoing copy slams away */}
-        {outgoing && (
-          <img
-            alt=""
-            src={src(outgoing.file)}
-            draggable={false}
-            decoding="async"
-            className="select-none"
-            style={{
-              ...imgBase(outgoing),
-              animation: `ransom-swap-out ${SWAP_MS}ms ${SLAM_EASE} both`,
-            }}
-          />
-        )}
+        {outgoing && piece(outgoing, true)}
       </span>
     </span>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { FlipType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT, GROUND, SCENE_H, SCENE_W } from "./params";
@@ -111,7 +112,7 @@ export function FlipTypeCard({
       onPointerDown={onPointer}
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: GROUND,
+        backgroundColor: themeColor("background", GROUND),
       }}
       className="relative mx-auto aspect-[4/3] w-full touch-none select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

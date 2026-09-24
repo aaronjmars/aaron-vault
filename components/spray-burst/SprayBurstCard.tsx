@@ -1,5 +1,7 @@
 "use client";
 
+import { themeRgbCss } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { SprayBurst } from "./engine";
 import { CARD_BG } from "./params";
@@ -101,7 +103,7 @@ export function SprayBurstCard({
       aria-label="A screenprint on cream paper that changes every three seconds, each time in new colours: rings each broken by a turning gap, a pinwheel of wedges, a many-pointed starburst jumping around its plate, a field of dots swelling under a passing wave, thick bars sliding across each other, and a crowd of circles drifting together into blobs. Every edge is a fine spray of dots rather than a clean line, and the whole print shivers as if redrawn by hand on every frame. Moving the pointer across it lays the ink on more heavily under your hand."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: `rgb(${CARD_BG[0]}, ${CARD_BG[1]}, ${CARD_BG[2]})`,
+        backgroundColor: themeRgbCss("background", CARD_BG),
       }}
       className="relative mx-auto aspect-[1344/820] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

@@ -1,3 +1,4 @@
+import { themeColor, themeRgb } from "../../lib/animation-theme";
 import { glitchScan, glitchTick } from "../../lib/sound";
 
 const SHADER =  `
@@ -240,10 +241,10 @@ export class PixelScanField {
     this.canvas = canvas;
     this.THREE = THREE;
     this.word = opts.word ?? DEFAULT_WORD;
-    this.accent = opts.accent ?? ACCENT;
-    this.accent2 = opts.accent2 ?? ACCENT2;
-    this.base = opts.base ?? BASE;
-    this.textColor = opts.textColor ?? TEXT_COLOR;
+    this.accent = themeRgb("accent", opts.accent ?? ACCENT, 1);
+    this.accent2 = themeRgb("accent", opts.accent2 ?? ACCENT2, 1);
+    this.base = themeRgb("foreground", opts.base ?? BASE, 1);
+    this.textColor = themeColor("foreground", opts.textColor ?? TEXT_COLOR);
     this.family = wordFamily(host);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -519,7 +520,7 @@ export function drawStaticWord(
   canvas: HTMLCanvasElement,
   host: HTMLElement,
   word: string = DEFAULT_WORD,
-  textColor: string = TEXT_COLOR,
+  textColor: string = themeColor("foreground", TEXT_COLOR),
 ) {
   const r = host.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;

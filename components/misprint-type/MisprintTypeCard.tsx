@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { MisprintType } from "./engine";
 import { FILL_WEIGHT, FONT_VAR, GROUND, OUTLINE_WEIGHT } from "./params";
@@ -132,7 +133,7 @@ export function MisprintTypeCard({
       aria-label="The words HOLD ON in tall warm-white capitals on a hot orange field, two lines, with a thin black outline that does not line up with the white letters, as if the outline had been printed slightly off, and slivers of holographic foil showing at the letter edges. The white ink carries faint vertical streaks and tiny pinholes, like a screen print. Pointing at the picture tilts it a little; the outline slides across the white with a soft shadow and the foil changes colour. Every few seconds a new sheet goes through and the outline lands somewhere else. Pressing and holding pulls everything exactly onto the white; letting go lets it slip again."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: GROUND,
+        backgroundColor: themeColor("background", GROUND),
       }}
       className="relative mx-auto aspect-[2/1] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

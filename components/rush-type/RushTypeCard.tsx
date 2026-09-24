@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { RushType } from "./engine";
 import { FONT_VAR, WORDS } from "./params";
@@ -112,7 +114,7 @@ export function RushTypeCard({
       data-canvas-card
       role="img"
       aria-label={`The words ${WORDS.join(", ")} one at a time on a dark field. Each word holds still and sharp for a beat, then swings up and toward you, turning, until it stretches off the top and bottom of the frame and tears into vertical streaks of green and violet light, and the next word falls back out of the blur. Pointing at it holds the word at its largest.`}
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#000000") }}
       className="relative mx-auto aspect-[1344/820] w-full cursor-pointer select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-black"
     >
     </div>

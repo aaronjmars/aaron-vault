@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeColor } from "../../lib/animation-theme";
 const PALETTE = [
   "#ffffff",
   "#3566ff",
@@ -178,6 +179,10 @@ export class Datamosh {
 
   private draw() {
     const { ctx, h, edges } = this;
+    if (getAnimationTheme().background) {
+      ctx.fillStyle = themeColor("background", "#ffffff");
+      ctx.fillRect(0, 0, this.w, h);
+    }
 
     for (let i = 0; i < COLS; i++) {
       const x0 = edges[i];
@@ -210,7 +215,9 @@ export class Datamosh {
 
         const s = id - i;
         const len = this.strip.length;
-        ctx.fillStyle = PALETTE[this.strip[((s % len) + len) % len]];
+        const swatch = this.strip[((s % len) + len) % len];
+        const role = swatch === 0 || swatch === 5 || swatch === 8 ? "background" : swatch % 2 ? "foreground" : "accent";
+        ctx.fillStyle = themeColor(role, PALETTE[swatch]);
         ctx.fillRect(x0, y, cw, th);
       }
     }

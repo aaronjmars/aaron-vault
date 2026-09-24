@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { RealitySplit, type RealitySplitOptions } from "./engine";
 import { PALETTES, VARIANTS, PALETTE } from "./params";
@@ -91,7 +92,7 @@ export function RealitySplitCard({
       role="img"
       aria-label={`A word sits selected in a design tool, each letter in its own box with corner handles. The letters split apart, scatter across the card, get inspected one at a time at huge scale, then collapse to a dot and snap back together as the whole word.`}
 
-      style={{ backgroundColor: firstBg, ...(viewTransitionName ? { viewTransitionName } : null) }}
+      style={{ backgroundColor: themeColor("background", firstBg), ...(viewTransitionName ? { viewTransitionName } : null) }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

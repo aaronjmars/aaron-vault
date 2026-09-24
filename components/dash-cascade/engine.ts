@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   AXIS,
   BG,
@@ -170,7 +171,7 @@ export class DashCascade {
     }
     const h = INK_H + (k * HUE_SPREAD_DEG) / 2;
     const l = INK_L + k * LIGHT_SPREAD;
-    return `hsl(${h.toFixed(1)} ${(sat * 100).toFixed(1)}% ${(l * 100).toFixed(1)}%)`;
+    return themeColor("foreground", `hsl(${h.toFixed(1)} ${(sat * 100).toFixed(1)}% ${(l * 100).toFixed(1)}%)`);
   }
 
   private draw(frame: number) {
@@ -180,7 +181,7 @@ export class DashCascade {
     const W = this.canvas.width / dpr;
     const H = this.canvas.height / dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = BG;
+    ctx.fillStyle = themeColor("background", BG);
     ctx.fillRect(0, 0, W, H);
 
     const sc = W / REF_W;

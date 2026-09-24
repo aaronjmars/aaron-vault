@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { Typer, TyperGroup } from "./standalone/typer";
 import "./standalone/typer.css";
@@ -47,7 +48,7 @@ export default function TyperPlayground() {
       data-canvas-card
       aria-label="Headlines that type in: a wave sweeps each line and every letter flickers through solid pills, highlights and outlines before settling. Adjacent letters in the same state merge into one rounded bar."
       className="@container relative mx-auto flex aspect-[1344/620] w-full select-none flex-col items-center justify-center gap-2 overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-surface,#fcfcfc)] text-center"
-      style={{ ["--typer-accent" as string]: "#12a150" }}
+      style={{ ["--typer-accent" as string]: themeColor("accent", "#12a150"), ["--typer-fg" as string]: themeColor("foreground", "#1b1b1b"), ["--typer-bg" as string]: themeColor("background", "#fcfcfc"), backgroundColor: themeColor("background", "#fcfcfc") }}
     >
       <div
         ref={blockRef}

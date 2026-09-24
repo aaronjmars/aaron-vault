@@ -1,5 +1,6 @@
 "use client";
 
+import { getAnimationTheme, themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { RevealGL, renderCornerText } from "./reveal-gl";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -96,7 +97,7 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
     let H = host.clientHeight || 1;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let fontFamily = resolveFamily("var(--font-kyoto), Georgia, serif");
-    const edge = hexToRgb(EDGE);
+    const edge = hexToRgb(themeColor("accent", EDGE));
 
     // WebGL is taken only while on screen: the page runs more GL cards than
     // Chrome's ~16 live-context cap, and an evicted context paints a sad-face
@@ -138,7 +139,7 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
         top: pair.top,
         bottom: pair.bottom,
         font: fontFamily,
-        fill: INK,
+        fill: themeColor("foreground", INK),
         cardW: W,
         cardH: H,
         dpr,
@@ -334,12 +335,12 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
       data-canvas-card
       aria-label="Two small text blocks in opposite corners that materialize through a soft cloudy mask, then clear and repeat with new words."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border"
-      style={{ backgroundColor: BG, borderColor: EDGE }}
+      style={{ backgroundColor: themeColor("background", BG), borderColor: themeColor("accent", EDGE) }}
     >
       {/* soft white wash over the putty plate */}
       <div
         className="textreveal-wash pointer-events-none absolute"
-        style={{ inset: "-8%", backgroundImage: WHITE_WASH }}
+        style={{ inset: "-8%", backgroundImage: getAnimationTheme().background ? "none" : WHITE_WASH }}
       />
       {/* fine grain */}
       <div
@@ -347,7 +348,7 @@ export function TextRevealCard({ bare = false }: { bare?: boolean } = {}) {
         style={{
           backgroundImage: `url("${GRAIN_SVG}")`,
           backgroundSize: "140px 140px",
-          opacity: 0.05,
+          opacity: getAnimationTheme().background ? 0 : 0.05,
           mixBlendMode: "multiply",
         }}
       />

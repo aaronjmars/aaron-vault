@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef, useState } from "react";
 import { EmbossPlayground } from "./pg-engine";
 import { defaultParams, type EmbossParams } from "./params";
@@ -63,7 +65,7 @@ export function EmbossPlayground_() {
     <div className="flex min-w-0 flex-col gap-4">
       {/* the plate */}
       <div className={`${PG_PREVIEW} aspect-[1344/620] w-full`}>
-        <div ref={hostRef} data-canvas-card className="absolute inset-0 h-full w-full" />
+        <div ref={hostRef} data-canvas-card className="absolute inset-0 h-full w-full" style={{ backgroundColor: themeColor("background", "#f0e9df") }} />
       </div>
     </div>
   );

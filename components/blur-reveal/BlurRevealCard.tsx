@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { BlurReveal } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -65,7 +66,7 @@ export default function BlurRevealCard() {
       data-canvas-card
       aria-label="Vivid colour panels cycling one at a time, each line of serif text dissolving in through a cloudy blur and resolving into focus."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: "#0b3d3a" }}
+      style={{ background: themeColor("background", "#0b3d3a") }}
     />
   );
 }

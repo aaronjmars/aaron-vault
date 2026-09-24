@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { GlassType } from "./engine";
 import { FONT_WEIGHT } from "./params";
@@ -116,7 +117,7 @@ export function GlassTypeCard({
       data-canvas-card
       role="img"
       aria-label="Black serif type on white, warped through a glass lens that fringes colour at its rim: a line rises and unrolls to readable, a hand-drawn glass ball swaps two words inside its boiling outline, and single words drift through a magnifying wave. The three scenes take turns, and hovering carries the lens with the pointer."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#ffffff") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-white"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

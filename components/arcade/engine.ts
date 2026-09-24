@@ -1,5 +1,8 @@
 "use client";
 
+import { themeRgb } from "../../lib/animation-theme";
+
+
 import { mediaUrl } from "../../lib/video-sources";
 import { ARCADE_FRAG, FULL_VERT } from "./shaders";
 import { makeArcadeField } from "./text-mask";
@@ -489,10 +492,14 @@ export class Arcade {
     gl.uniform1f(this.loc.uPull, p.pull);
 
     const c = this.cur;
-    gl.uniform3f(this.loc.uGround, c[0], c[1], c[2]);
-    gl.uniform3f(this.loc.uInk, c[3], c[4], c[5]);
-    gl.uniform3f(this.loc.uPaper, c[6], c[7], c[8]);
-    gl.uniform3f(this.loc.uFringe, c[9], c[10], c[11]);
+    const ground = themeRgb("background", c.slice(0, 3), 1);
+    const ink = themeRgb("foreground", c.slice(3, 6), 1);
+    const paper = themeRgb("background", c.slice(6, 9), 1);
+    const fringe = themeRgb("accent", c.slice(9, 12), 1);
+    gl.uniform3fv(this.loc.uGround, ground);
+    gl.uniform3fv(this.loc.uInk, ink);
+    gl.uniform3fv(this.loc.uPaper, paper);
+    gl.uniform3fv(this.loc.uFringe, fringe);
 
     gl.uniform2f(this.loc.uLevels, LEVELS_IN[0], LEVELS_IN[1]);
     gl.uniform1f(this.loc.uVibrance, VIBRANCE);

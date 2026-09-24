@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { Datamosh } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -79,6 +80,7 @@ export function DatamoshCard({
       role="img"
       aria-label="A corrupted video decode: fixed columns of saturated colour, each one falling on its own fast clock. Tiles snap open through the middle of the frame and squeeze back down at the top and bottom, staggered column by column so the motion sweeps from right to left."
       className="relative aspect-[1344/620] w-full overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#14101f]"
+      style={{ backgroundColor: themeColor("background", "#14101f") }}
     />
   );
 }

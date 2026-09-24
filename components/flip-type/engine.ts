@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ADV,
   CAP,
@@ -85,14 +86,14 @@ export class FlipType {
     if (!ctx) return;
     const k = this.canvas.width / SCENE_W;
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = GROUND;
+    ctx.fillStyle = themeColor("background", GROUND);
     ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     ctx.setTransform(k, 0, 0, k, 0, 0);
     ctx.font = `${FONT_WEIGHT} ${FONT_SIZE}px ${this.family}`;
     ctx.fontKerning = "none";
     ctx.textBaseline = "alphabetic";
     ctx.textAlign = "left";
-    ctx.fillStyle = INK;
+    ctx.fillStyle = themeColor("foreground", INK);
     const glyphs: Glyph[] = lettersAt(frame, this.pokes);
     for (const g of glyphs) ctx.fillText(g.glyph, g.x, g.y);
     ctx.setTransform(1, 0, 0, 1, 0, 0);

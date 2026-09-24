@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { DesignTiles } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -63,6 +64,7 @@ export default function DesignTilesCard() {
       data-canvas-card
       aria-label="The sentence 'design is how it works' as solid colour tiles that fly in, assemble into one bar, and shuffle their swatches. Hover a tile to re-roll its colour."
       className="@container relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f4f2ec]"
+      style={{ backgroundColor: themeColor("background", "#f4f2ec") }}
     />
   );
 }

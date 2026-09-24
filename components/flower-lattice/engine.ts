@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   BORDER,
   CENTER_COLUMN,
@@ -104,7 +105,7 @@ export class FlowerLattice {
     const H = this.canvas.height / dpr;
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = PAPER;
+    ctx.fillStyle = themeColor("background", PAPER);
     ctx.fillRect(0, 0, W, H);
 
     const margin = MARGIN * H;
@@ -126,7 +127,7 @@ export class FlowerLattice {
     const reach = FLOWER_R * pitch;
     const base = CENTER_COLUMN ? W / 2 : pitch / 3;
 
-    ctx.fillStyle = INK;
+    ctx.fillStyle = themeColor("foreground", INK);
     for (let r = 0; r < ROWS.length; r++) {
       const cy = ROWS[r] * H;
 
@@ -147,7 +148,7 @@ export class FlowerLattice {
     ctx.beginPath();
     ctx.rect(margin, margin, W - margin * 2, H - margin * 2);
     ctx.rect(inset, inset, W - inset * 2, H - inset * 2);
-    ctx.fillStyle = INK;
+    ctx.fillStyle = themeColor("foreground", INK);
     ctx.fill("evenodd");
   }
 }

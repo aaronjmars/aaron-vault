@@ -1,3 +1,4 @@
+import { getAnimationTheme, themeRgb } from "../../lib/animation-theme";
 import {
   ARRIVE_S,
   BLOOM_BIAS,
@@ -102,6 +103,9 @@ uniform float uCrt;
 uniform float uTime;
 uniform vec4  uGlow;
 uniform float uGlowAmp;
+uniform vec3 uThemeForeground;
+uniform vec3 uThemeBackground;
+uniform float uThemeOn;
 
 #define SAMPLES ${samples}
 #define BLOOM_TAPS 4
@@ -238,7 +242,9 @@ void main() {
     acc *= mask * scan * hum;
   }
 
-  gl_FragColor = vec4(acc, 1.0);
+  float coverage = clamp(dot(acc, vec3(0.2126, 0.7152, 0.0722)), 0.0, 1.0);
+  vec3 themed = mix(uThemeBackground, uThemeForeground, coverage);
+  gl_FragColor = vec4(mix(acc, themed, uThemeOn), 1.0);
 }
 `;
 
@@ -387,7 +393,7 @@ export class RushType {
       "uText", "uRes", "uHalfPx", "uSx", "uSyQ",
       "uCenterY", "uSwapU", "uHalfA", "uHalfB", "uK",
       "uShape", "uRoll", "uLag", "uThin", "uBloom", "uGain", "uExp", "uSwapScl",
-      "uFocal", "uPos", "uRot", "uCrt", "uTime", "uGlow", "uGlowAmp",
+      "uFocal", "uPos", "uRot", "uCrt", "uTime", "uGlow", "uGlowAmp", "uThemeForeground", "uThemeBackground", "uThemeOn",
     ]) {
       this.uni[n] = gl.getUniformLocation(prog, n);
     }
@@ -650,6 +656,9 @@ export class RushType {
       ),
     );
     gl.uniform1f(this.uni.uGlowAmp, GLOW_BASE + GLOW_SPEED * here.p);
+    gl.uniform3fv(this.uni.uThemeForeground, themeRgb("foreground", [1, 1, 1], 1));
+    gl.uniform3fv(this.uni.uThemeBackground, themeRgb("background", [0, 0, 0], 1));
+    gl.uniform1f(this.uni.uThemeOn, getAnimationTheme().foreground || getAnimationTheme().background ? 1 : 0);
 
     gl.uniform1f(this.uni.uTime, this.wall % (1 / CRT_HUM_SPEED));
 

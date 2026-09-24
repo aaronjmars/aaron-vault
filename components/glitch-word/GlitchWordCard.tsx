@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { ACTIVE, GlitchWord, IDLE } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -134,6 +136,7 @@ export function GlitchWordCard({ bare = false }: { bare?: boolean } = {}) {
       role="img"
       aria-label="The word 'glitching' in a small badge, tearing itself apart: stacked copies of the text clipped into bands and shoved sideways, while a few letters flicker into punctuation"
       className="relative flex aspect-[1344/620] w-full select-none items-center justify-center overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[var(--bg-hover)]"
+      style={{ backgroundColor: themeColor("background", "#f2f2f4") }}
     >
       {}
       {}
@@ -161,7 +164,7 @@ export function GlitchWordCard({ bare = false }: { bare?: boolean } = {}) {
             data-glitch-badge
             className="gw-badge absolute -inset-x-3 -top-1 -bottom-1 rounded-[8px]"
           />
-          <span data-glitch-text className={`${TEXT} relative text-white`}>
+          <span data-glitch-text className={`${TEXT} relative text-white`} style={{ color: themeColor("foreground", "#ffffff") }}>
             {WORD}
           </span>
         </span>
@@ -180,7 +183,7 @@ export function GlitchWordCard({ bare = false }: { bare?: boolean } = {}) {
               className="gw-badge absolute -inset-x-3 -top-1 -bottom-1 rounded-[8px]"
               style={{ animationDelay: `${-(i * 2.4).toFixed(1)}s` }}
             />
-            <span data-glitch-text className={`${TEXT} relative text-white`}>
+            <span data-glitch-text className={`${TEXT} relative text-white`} style={{ color: themeColor("foreground", "#ffffff") }}>
               {WORD}
             </span>
           </span>

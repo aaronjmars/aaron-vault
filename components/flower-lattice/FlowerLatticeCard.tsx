@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { FlowerLattice } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -80,7 +81,7 @@ export function FlowerLatticeCard({
       data-canvas-card
       role="img"
       aria-label="A lattice of rust-red line-drawn flowers on warm cream paper inside a heavy red frame. Every flower blinks in unison, its petals flooding closed and sweeping open, while the top row of flowers drifts right and the bottom row drifts left."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#faf3e8") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#faf3e8]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

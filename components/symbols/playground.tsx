@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { SymbolsEffect } from "./standalone/SymbolsEffect";
 import { GLYPHS } from "./glyphs";
@@ -27,7 +28,7 @@ export default function SymbolsPlayground() {
             // crop into the clip so the settled "Try amo" spans about 85% of the card
             zoom: 1.3,
             // dark tones get the densest marks, highlights stay bare paper
-            bandColors: ["#17403f", "#2f7fbf", "#d4442c", "#e8933a"],
+            bandColors: [themeColor("foreground", "#17403f"), themeColor("accent", "#2f7fbf"), themeColor("foreground", "#d4442c"), themeColor("accent", "#e8933a")],
             bandStops: [0, 0.28, 0.55, 0.8, 1.0],
             bandGlyphs: [
               GLYPHS.findIndex((g) => g.name === "square"),
@@ -35,7 +36,7 @@ export default function SymbolsPlayground() {
               GLYPHS.findIndex((g) => g.name === "diagonal"),
               GLYPHS.findIndex((g) => g.name === "empty"),
             ],
-            bg: "#f7f4ef",
+            bg: themeColor("background", "#f7f4ef"),
           });
           if (reduced) {
             fx.setImage("/vault/embroidery-weave.webp");
@@ -71,6 +72,7 @@ export default function SymbolsPlayground() {
       data-canvas-card
       aria-label="A picture rebuilt out of tiny stamped symbols, each brightness band tinted with its own colour. With motion, a video plays through the symbol grid live."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#f7f4ef]"
+      style={{ backgroundColor: themeColor("background", "#f7f4ef") }}
     />
   );
 }

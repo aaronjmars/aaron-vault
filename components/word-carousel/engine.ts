@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ARRIVE_E,
   BG,
@@ -198,7 +199,7 @@ export class WordCarousel {
       const c = [0, 1, 2].map((i) => Math.round(lerp(p(a, i), p(b, i), m)));
       return `rgb(${c[0]},${c[1]},${c[2]})`;
     };
-    return mix(INK_FAR, INK, e);
+    return themeColor("foreground", mix(INK_FAR, INK, e));
   }
 
   private stamp(word: string, x: number, s: number, alpha: number) {
@@ -214,7 +215,7 @@ export class WordCarousel {
     const ctx = this.ctx;
     if (!ctx) return;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = BG;
+    ctx.fillStyle = themeColor("background", BG);
     ctx.fillRect(0, 0, this.W, this.H);
     ctx.textAlign = "center";
     ctx.textBaseline = "alphabetic";

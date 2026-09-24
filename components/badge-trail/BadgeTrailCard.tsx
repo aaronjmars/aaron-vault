@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { WORDS, COLORS, makeHueWalker } from "./badges";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -378,6 +379,7 @@ export function BadgeTrailCard({ bare = false }: { bare?: boolean } = {}) {
       className="relative mx-auto aspect-[1344/620] w-full cursor-crosshair select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-white"
       style={{
         fontFamily: "var(--font-neue-mono)",
+        backgroundColor: themeColor("background", "#ffffff"),
 
         ...(!fine && !reduced ? { touchAction: "none" as const } : null),
       }}
@@ -393,8 +395,8 @@ export function BadgeTrailCard({ bare = false }: { bare?: boolean } = {}) {
                 lineHeight: 1,
                 padding: `${PAD_Y}px ${PAD_X}px`,
                 borderRadius: RADIUS,
-                background: b.color,
-                color: "#000",
+                background: themeColor("accent", b.color),
+                color: themeColor("foreground", "#000"),
                 textTransform: "uppercase",
               }}
             >
@@ -426,11 +428,11 @@ export function BadgeTrailCard({ bare = false }: { bare?: boolean } = {}) {
                       padding: `${PAD_Y}px ${PAD_X}px`,
                       borderRadius: RADIUS,
 
-                      background: b.special ? "transparent" : b.color,
+                      background: b.special ? "transparent" : themeColor("accent", b.color),
                       boxShadow: b.special
                         ? `inset 0 0 0 1px ${b.color}`
                         : "0 1px 2px -1px rgba(20,20,30,0.35)",
-                      color: b.special ? b.color : "#000",
+                      color: themeColor("foreground", b.special ? b.color : "#000"),
                       textTransform: "uppercase",
                       opacity: m.opacity * depthDim,
 

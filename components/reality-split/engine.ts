@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import {
   ARRIVE,
   ARRIVE_DUR,
@@ -742,9 +743,9 @@ export class RealitySplit {
 
       if (p.blur && p.blur > 0.2) ctx.filter = `blur(${p.blur.toFixed(2)}px)`;
     }
-    ctx.fillStyle = this.pal.box;
+    ctx.fillStyle = themeColor("accent", this.pal.box);
     this.fillBox(p.x, p.y, p.w, p.h);
-    ctx.fillStyle = this.pal.ink;
+    ctx.fillStyle = themeColor("foreground", this.pal.ink);
     const L = this.letters[li];
     ctx.save();
     ctx.translate(p.gx, p.gy);
@@ -779,8 +780,8 @@ export class RealitySplit {
       [x, y + h],
       [x + w, y + h],
     ];
-    ctx.fillStyle = this.pal.handle;
-    ctx.strokeStyle = this.pal.handle;
+    ctx.fillStyle = themeColor("accent", this.pal.handle);
+    ctx.strokeStyle = themeColor("accent", this.pal.handle);
     for (const [hx, hy] of corners) {
       switch (this.handleShape) {
         case "square":
@@ -822,10 +823,10 @@ export class RealitySplit {
     const ctx = this.ctx!;
     const r = this.wordRect(scale);
     if (scale > 0.002) {
-      ctx.fillStyle = this.pal.box;
+      ctx.fillStyle = themeColor("accent", this.pal.box);
       this.fillBox(r.x, r.y, r.w, r.h);
       if (scale > 0.02) {
-        ctx.fillStyle = this.pal.ink;
+        ctx.fillStyle = themeColor("foreground", this.pal.ink);
         ctx.save();
         ctx.translate(this.W / 2, this.H / 2);
         ctx.scale(scale, scale);
@@ -842,10 +843,10 @@ export class RealitySplit {
     if (!ctx) return;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
 
-    ctx.fillStyle =
+    ctx.fillStyle = themeColor("background",
       this.prevPal && t < FIELD_FADE
         ? mixHex(this.prevPal.bg, this.pal.bg, smooth(t / FIELD_FADE))
-        : this.pal.bg;
+        : this.pal.bg);
     ctx.fillRect(0, 0, this.W, this.H);
     ctx.font = this.font;
     ctx.textAlign = "left";

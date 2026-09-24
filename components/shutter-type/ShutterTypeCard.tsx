@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { ShutterType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT, PAPER } from "./params";
@@ -98,7 +100,7 @@ export function ShutterTypeCard({
       aria-label="Sky blue type on warm paper, seen through a rolling shutter. The words 'Design is thinking' shake into place, each word cut into horizontal bands that lag behind it, then the colours invert to paper type on sky blue, the line swells slightly and lifts off the top. A tall stack of 'made visual' takes its place, scrolling up one row at a time; with each scroll the letters tear into sliding bands and knit back together, and the ground swaps back to sky blue for the last beats."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: PAPER,
+        backgroundColor: themeColor("background", PAPER),
       }}
       className="relative mx-auto aspect-video w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

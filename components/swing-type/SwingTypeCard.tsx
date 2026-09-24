@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { SwingType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT } from "./params";
@@ -99,7 +101,7 @@ export function SwingTypeCard({
       aria-label="Large coloured letters swing slowly back and forth across a white field. Each letter turns edge-on as it travels, thinning to a coloured sliver at the sides and opening to full width in the middle, so only two or three letters can be read at any moment and the whole word never appears at once. Every few seconds the word quietly becomes a different one."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: "#fff",
+        backgroundColor: themeColor("background", "#fff"),
       }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

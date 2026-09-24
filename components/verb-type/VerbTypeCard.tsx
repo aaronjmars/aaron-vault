@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { VerbType } from "./engine";
 import { FONT_VAR, FONT_WEIGHT, PHASES } from "./params";
@@ -128,7 +129,7 @@ export function VerbTypeCard({
       aria-label="Five words appear one after another in a plain grotesque, each acting out its own meaning and each printed in its own colour. MOVE's bone letters hop around a cobalt field and slot into place. SKEW's vermilion letters lean over one by one on cream. ROTATE wheels the whole word around the middle of a forest-green frame while its O and second T trade places. BREAK drops its last three black letters onto the floor of a yellow field, where they bounce. CONDENSE squeezes coral letters on aubergine thinner and thinner until they are a hairline. Pressing the picture holds the frame."
       style={{
         ...(viewTransitionName ? { viewTransitionName } : null),
-        backgroundColor: PHASES[0].ground,
+        backgroundColor: themeColor("background", PHASES[0].ground),
       }}
       className="relative mx-auto aspect-video w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
     >

@@ -1,3 +1,4 @@
+import { themeColor } from "../../lib/animation-theme";
 import { STICKERS, type StickerDef } from "./stickers";
 import { renderSticker } from "./sticker-render";
 import { StickerGL } from "./gl-sticker";
@@ -106,8 +107,8 @@ export class WordStickers {
         word: def.word,
         font: resolveFamily(def.font),
         weight: def.weight,
-        fill: def.fill,
-        outline: def.outline,
+        fill: themeColor("foreground", def.fill),
+        outline: themeColor("accent", def.outline),
         fontSizePx,
       });
 
@@ -432,8 +433,8 @@ export class WordStickers {
         word: it.def.word,
         font: resolveFamily(it.def.font),
         weight: it.def.weight,
-        fill: it.def.fill,
-        outline: it.def.outline,
+        fill: themeColor("foreground", it.def.fill),
+        outline: themeColor("accent", it.def.outline),
         fontSizePx,
       });
       it.w = r.width;

@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef, type CSSProperties } from "react";
 import { KineticA as Engine, type KineticParams } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -28,6 +29,7 @@ export function KineticACard({
   viewTransitionName?: string;
 } = {}) {
   const stageRef = useRef<HTMLDivElement>(null);
+  const themedParams = { ...params, paper: themeColor("background", params.paper), ink: themeColor("foreground", params.ink), accent: themeColor("accent", params.accent) };
   const engineRef = useRef<Engine | null>(null);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export function KineticACard({
     if (!stage) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const engine = new Engine(stage, params);
+    const engine = new Engine(stage, themedParams);
     engineRef.current = engine;
 
     if (typeof document !== "undefined" && document.fonts) {
@@ -95,7 +97,7 @@ export function KineticACard({
   }, []);
 
   useEffect(() => {
-    engineRef.current?.setParams(params);
+    engineRef.current?.setParams(themedParams);
   }, [params]);
 
   const shape = flush
@@ -103,8 +105,8 @@ export function KineticACard({
     : "rounded-[12px] border";
 
   const style: CSSProperties | undefined = viewTransitionName
-    ? { viewTransitionName, background: params.paper }
-    : { background: params.paper };
+    ? { viewTransitionName, background: themedParams.paper }
+    : { background: themedParams.paper };
 
   return (
     <div

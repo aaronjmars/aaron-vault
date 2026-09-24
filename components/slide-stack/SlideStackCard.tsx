@@ -1,5 +1,7 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
+
 import { useEffect, useRef } from "react";
 import { SlideStack } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -121,7 +123,7 @@ export function SlideStackCard({
       data-canvas-card
       role="img"
       aria-label="Five dark blocks on an orange field, sliding between a left and a right stop. Each row starts a beat after the one above it, so the movement falls down the stack as a wave and the blocks' leading edges trace a shifting diagonal."
-      style={viewTransitionName ? { viewTransitionName } : undefined}
+      style={{ ...(viewTransitionName ? { viewTransitionName } : null), backgroundColor: themeColor("background", "#dedede") }}
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)] bg-[#dedede]"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

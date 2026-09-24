@@ -1,5 +1,6 @@
 "use client";
 
+import { themeColor } from "../../lib/animation-theme";
 import { useEffect, useRef } from "react";
 import { TileField } from "./engine";
 import { onTransitionChange } from "../../lib/view-transition";
@@ -62,7 +63,7 @@ export default function TileFieldCard() {
       data-canvas-card
       aria-label="A wordmark rendered as a dense grid of square tiles. A slow colour wave wanders across it and the cursor brushes a soft morphing light with occasional sparks."
       className="relative mx-auto aspect-[1344/620] w-full select-none overflow-hidden rounded-[12px] border border-[var(--border-line)]"
-      style={{ background: "#0d0e14" }}
+      style={{ background: themeColor("background", "#0d0e14") }}
     />
   );
 }
